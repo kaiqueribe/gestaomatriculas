@@ -26,7 +26,7 @@ public class AtendidoService {
 
     }
 
-    public List<Atendido> buscarTodosAtendidos() {
+    public List<Atendido> listarTodosAtendidos() {
         List<Atendido> atendidos = atendidoRepository.findAll();
         return atendidos.stream().toList();
     }
@@ -41,6 +41,8 @@ public class AtendidoService {
     }
 
     public void deletarAtendido(Long id) {
+        Atendido atendido = atendidoRepository.findById(id).orElseThrow(() -> new NotFoundException("Atendido com id: "+id+" não encontrado!"));
+        atendidoRepository.delete(atendido);
 
     }
 
