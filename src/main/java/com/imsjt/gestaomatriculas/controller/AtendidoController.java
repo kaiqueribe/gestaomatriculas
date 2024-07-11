@@ -15,16 +15,16 @@ public class AtendidoController {
     private AtendidoService atendidoService;
 
 
-    @PostMapping
-    public ResponseEntity<Atendido> cadastrar(@RequestBody Atendido atendido) {
-        Atendido novoAtendido = atendidoService.cadastrarAtendido(atendido);
-        return new ResponseEntity<>(novoAtendido, HttpStatus.CREATED);
-    }
+        @PostMapping
+        public ResponseEntity<Atendido> cadastrar(@RequestBody Atendido atendido) {
+            Atendido novoAtendido = atendidoService.cadastrarAtendido(atendido);
+            return new ResponseEntity<>(novoAtendido, HttpStatus.CREATED);
+        }
 
-    @GetMapping
-    public ResponseEntity<List<Atendido>> buscarTodos() {
-        List<Atendido> atendidos = atendidoService.listarTodosAtendidos();
-        return ResponseEntity.ok(atendidos);
+        @GetMapping
+        public ResponseEntity<List<Atendido>> buscarTodos() {
+            List<Atendido> atendidos = atendidoService.listarTodosAtendidos();
+            return ResponseEntity.ok(atendidos);
 
     }
 
@@ -33,12 +33,13 @@ public class AtendidoController {
         Atendido atendido = atendidoService.buscarAtendidoPorId(id);
         return ResponseEntity.ok(atendido);
     }
+//TODO: Implementar o método de atualizar
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Atendido> atualizar(@PathVariable Long id, @RequestBody Atendido atendido) {
-        Atendido atendidoAtualizado = atendidoService.atualizarAtendido(id, atendido);
-        return ResponseEntity.ok(atendidoAtualizado);
-    }
+//    @PutMapping("/{id}")
+//    public ResponseEntity<Atendido> atualizar(@PathVariable Long id, @RequestBody Atendido atendido) {
+//        Atendido atendidoAtualizado = atendidoService.atualizarAtendido(id, atendido);
+//        return ResponseEntity.ok(atendidoAtualizado);
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> remover(@PathVariable Long id) {
