@@ -5,7 +5,7 @@ import com.imsjt.gestaomatriculas.exceptions.NotFoundException;
 import com.imsjt.gestaomatriculas.repository.AtendidoRepository;
 import com.sun.jdi.request.InvalidRequestStateException;
 import lombok.AllArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,6 +36,7 @@ public class AtendidoService {
         return atendido;
     }
 
+    //TODO: Implementar o método de atualizar
     public Atendido atualizarAtendido(Long id, Atendido atendido) {
         return null;
     }
