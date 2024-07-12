@@ -1,6 +1,6 @@
 package com.imsjt.gestaomatriculas.repository;
 
-import com.imsjt.gestaomatriculas.entity.Atendido;
+import com.imsjt.gestaomatriculas.entity.Telefone;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Repository;
@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface AtendidoRepository extends JpaRepository<Atendido, Long> {
-    Optional<Atendido> findByCpf(String cpf);
+public interface TelefoneRepository extends JpaRepository<Telefone,Long> {
+    Optional<Telefone> findByNumeroTelefone(String numeroTelefone);
 }
