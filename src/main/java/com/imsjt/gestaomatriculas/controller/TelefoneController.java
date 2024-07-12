@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/telefones")
+
 public class TelefoneController {
 
     //TODO: Implementar TelefoneController
@@ -17,8 +18,8 @@ public class TelefoneController {
 
 
     @PostMapping
-    public ResponseEntity<Telefone> cadastrar(Telefone telefone){
-        Telefone novoTelefone = telefoneService.cadastrarTelefone(telefone);
+    public ResponseEntity<Telefone> cadastrar(@RequestBody Telefone telefone){
+        var novoTelefone = telefoneService.cadastrarTelefone(telefone);
         return new ResponseEntity<>(novoTelefone, HttpStatus.CREATED);
     }
 
