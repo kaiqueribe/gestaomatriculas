@@ -9,13 +9,13 @@ public class DadosEscolares {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idDadosEscolares;
+    private Long id;
     private String nomeEscola;
     private String periodoEscolar;
     private String serie;
     private String turno;
     @OneToMany
-    @JoinColumn(name = "idTelefone")
+    @JoinColumn(name = "id_Telefones")
     private List<Telefone> telefones;
 
 }

@@ -10,7 +10,7 @@ import jakarta.persistence.Id;
 public class Endereco {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idEndereco;
+    private Long id;
     private String rua;
     private String numero;
     private String complemento;

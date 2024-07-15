@@ -6,11 +6,11 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idUsuario;
+    private Long id;
     private String username;
     private String password;
     @OneToOne
-    @JoinColumn(name = "idFuncionario")
+    @JoinColumn(name = "id_Funcionario")
     private Funcionario funcionario;
 
 }

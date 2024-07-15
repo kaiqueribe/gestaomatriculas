@@ -9,9 +9,9 @@ public class DadosSociais {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    private int idDadosSociais;
+    private Long id;
     private boolean recebeBeneficio;
     @OneToMany
-    @JoinColumn(name = "idBeneficio")
+    @JoinColumn(name = "id_Beneficios")
     private List<Beneficio> beneficios;
 }

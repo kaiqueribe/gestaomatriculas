@@ -8,11 +8,11 @@ import java.time.LocalDate;
 public class Matricula {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
-    private int idMatricula;
+    private Long id;
     private LocalDate dataMatricula;
     private LocalDate dataFimMatricula;
     private String situacao;
     @OneToOne
-    @JoinColumn(name = "idAtendido")
+    @JoinColumn(name = "id_Atendido")
     private Atendido atendido;
 }

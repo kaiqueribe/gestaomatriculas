@@ -7,15 +7,15 @@ import java.util.List;
 @Entity(name = "responsavel")
 public class Responsavel {
     @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
-    private int idResponsavel;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String nomeCompleto;
     private String rg;
     private String cpf;
     @OneToMany
-    @JoinColumn(name = "idTelefone")
+    @JoinColumn(name = "id_Telefones")
     private List<Telefone> telefones;
     @ManyToOne
-    @JoinColumn(name = "idAtendido")
+    @JoinColumn(name = "id_Atendido")
     private Atendido atendido;
 }
