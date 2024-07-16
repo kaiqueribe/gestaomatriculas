@@ -25,7 +25,6 @@ public class AtendidoController {
         public ResponseEntity<List<Atendido>> buscarTodos() {
             List<Atendido> atendidos = atendidoService.listarTodosAtendidos();
             return ResponseEntity.ok(atendidos);
-
     }
 
     @GetMapping("/{id}")

@@ -14,6 +14,8 @@ import java.util.List;
 @AllArgsConstructor
 public class AtendidoService {
 
+    //TODO Tratar Exceptionsm e 
+
     private AtendidoRepository atendidoRepository;
 
     public Atendido cadastrarAtendido(Atendido atendido) {
@@ -31,15 +33,15 @@ public class AtendidoService {
         return atendidos.stream().toList();
     }
 
-    public Atendido buscarAtendidoPorId(Long id ) {
+    public Atendido buscarAtendidoPorId(Long id) {
         Atendido atendido = atendidoRepository.findById(id).orElseThrow(() -> new NotFoundException("Atendido com id: "+id+" não encontrado!"));
         return atendido;
     }
 
-    //TODO: Implementar o método de atualizar
-    public Atendido atualizarAtendido(Long id, Atendido atendido) {
-        return null;
-    }
+//    //TODO: Implementar o método de atualizar
+//    public Atendido atualizarAtendido(Long id, Atendido atendido) {
+//        return null;
+//    }
 
     public void deletarAtendido(Long id) {
         Atendido atendido = atendidoRepository.findById(id).orElseThrow(() -> new NotFoundException("Atendido com id: "+id+" não encontrado!"));

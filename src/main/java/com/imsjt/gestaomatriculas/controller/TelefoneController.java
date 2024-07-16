@@ -25,29 +25,33 @@ public class TelefoneController {
     public ResponseEntity<Telefone> cadastrar(@RequestBody Telefone telefone) {
 
         var telefoneCadastrado = telefoneService.cadastrarTelefone(telefone);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{numeroTelefone}").buildAndExpand(telefoneCadastrado.getNumeroTelefone()).toUri();
-        return ResponseEntity.created(uri).body(telefoneCadastrado);
+
+        return new ResponseEntity<>(telefoneCadastrado, HttpStatus.CREATED);
     }
 
-//    @GetMapping
-//    public ResponseEntity<List<Telefone>> buscarTodos() {
-//        return null;
-//    }
-//
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Telefone> buscarPorId(Long id) {
-//        return null;
-//    }
-//
+    @GetMapping
+    public ResponseEntity<List<Telefone>> buscarTodos() {
+        List<Telefone> telefones = telefoneService.listarTodosTelefones();
+        return ResponseEntity.ok(telefones);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Telefone> buscarPorId(@PathVariable Long id) {
+        Telefone telefone = telefoneService.buscarTelefonePorId(id);
+        return ResponseEntity.ok(telefone);
+    }
+
+    //
 //    //TODO: Implementar o método de atualizar
 //    @PutMapping("/{id}")
 //    public ResponseEntity<Telefone> atualizar(Long id, Telefone telefone) {
 //        return null;
 //    }
 //
-//    @DeleteMapping("/{id}")
-//    public void remover(Long id) {
-//
-//    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> remover(@PathVariable Long id) {
+        telefoneService.deletarTelefone(id);
+        return ResponseEntity.ok("Telefone deletado com sucesso! ");
+    }
 
 }

@@ -3,12 +3,15 @@ package com.imsjt.gestaomatriculas.service;
 import com.imsjt.gestaomatriculas.entity.Telefone;
 
 import com.imsjt.gestaomatriculas.exceptions.InvalidRequestException;
+import com.imsjt.gestaomatriculas.exceptions.NotFoundException;
 import com.imsjt.gestaomatriculas.repository.TelefoneRepository;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -30,20 +33,24 @@ public class TelefoneService {
 
     }
 
-//    public List<Telefone> listarTodosTelefones() {
-//        return null;
-//    }
-//
-//    public Telefone buscarTelefonePorId(Long id) {
-//        return null;
-//    }
+    public List<Telefone> listarTodosTelefones() {
+        List<Telefone> telefones = telefoneRepository.findAll();
+        return telefones.stream().toList();
+    }
+
+    public Telefone buscarTelefonePorId(Long id) {
+        Telefone telefone = telefoneRepository.findById(id).orElseThrow(() -> new NotFoundException(" Telefone com id:"+ id + " não encontrado!"));
+
+        return telefone;
+    }
 //
 //    public Telefone atualizarTelefone(Long id, Telefone telefone) {
 //        return null;
 //    }
 //
-//    public void deletarTelefone(Long id) {
-//
-//    }
+    public void deletarTelefone(Long id) {
+    Telefone telefone = telefoneRepository.findById(id).orElseThrow(() -> new NotFoundException("Atendido com id:  "+ id +" não encontrado!"));
+    telefoneRepository.delete(telefone);
+    }
 
 }
