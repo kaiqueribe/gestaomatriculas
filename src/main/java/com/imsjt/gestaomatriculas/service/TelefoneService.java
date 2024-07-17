@@ -20,7 +20,7 @@ public class TelefoneService {
 
     private TelefoneRepository telefoneRepository;
 
-    //TODO: Implementar TelefoneService
+
     public Telefone cadastrarTelefone(Telefone telefone) {
 
         telefoneRepository.findByNumeroTelefone(telefone.getNumeroTelefone())
@@ -43,6 +43,7 @@ public class TelefoneService {
 
         return telefone;
     }
+    //TODO: Implementar atualizar TelefoneService
 //
 //    public Telefone atualizarTelefone(Long id, Telefone telefone) {
 //        return null;

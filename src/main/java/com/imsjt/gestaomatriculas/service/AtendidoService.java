@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class AtendidoService {
 
-    //TODO Tratar Exceptionsm e 
+    //TODO Tratar Exceptionsm e
 
     private AtendidoRepository atendidoRepository;
 
