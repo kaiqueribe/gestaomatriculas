@@ -13,7 +13,7 @@ import java.util.List;
 public class Atendido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idAtendido;
+    private Long id;
 
     private String nomeCompleto;
     private String rg;
@@ -23,23 +23,23 @@ public class Atendido {
     private String idade;
     private String Sexo;
     @OneToOne
-    @JoinColumn(name = "idMatricula")
+    @JoinColumn(name = "id_Matricula")
     private Matricula matricula;
 
     @OneToMany
-    @JoinColumn (name = "idResponsavel")
+    @JoinColumn (name = "id_Responsavel")
     private List<Responsavel> responsavelList;
     @OneToMany
-    @JoinColumn(name = "idTelefone")
+    @JoinColumn(name = "id_Telefones")
     private List <Telefone> telefones;
     @OneToOne
-    @JoinColumn(name = "idEndereco")
+    @JoinColumn(name = "id_Endereco")
     private Endereco endereco;
     @OneToOne
-    @JoinColumn(name = "idDadosEscolares")
+    @JoinColumn(name = "id_DadosEscolares")
     private DadosEscolares dadosEscolares;
     @OneToMany
-    @JoinColumn(name = "idDadosSociais")
+    @JoinColumn(name = "id_DadosSociais")
     private List<DadosSociais> dadosSociais;
 
 

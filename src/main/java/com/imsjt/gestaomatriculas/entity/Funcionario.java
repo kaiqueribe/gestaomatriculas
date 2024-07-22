@@ -7,7 +7,7 @@ public class Funcionario {
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private int idFuncionario;
+    private Long id;
 
     private String nomeFuncionario;
     private String emailFuncionario;
