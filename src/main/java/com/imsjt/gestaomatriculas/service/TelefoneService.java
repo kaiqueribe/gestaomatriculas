@@ -6,9 +6,9 @@ import com.imsjt.gestaomatriculas.exceptions.InvalidRequestException;
 import com.imsjt.gestaomatriculas.exceptions.NotFoundException;
 import com.imsjt.gestaomatriculas.repository.TelefoneRepository;
 
-import jakarta.transaction.Transactional;
+
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
