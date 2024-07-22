@@ -1,42 +1,41 @@
 package com.imsjt.gestaomatriculas.controller;
 
 import com.imsjt.gestaomatriculas.entity.Endereco;
-import com.imsjt.gestaomatriculas.service.AtendidoService;
-import com.imsjt.gestaomatriculas.service.EndereçoService;
+
+import com.imsjt.gestaomatriculas.service.EnderecoService;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/enderecos")
+@AllArgsConstructor
 public class EnderecoController {
 
-    private final AtendidoService atendidoService;
-    private EndereçoService endereçoService;
 
-    public EnderecoController(AtendidoService atendidoService) {
-        this.atendidoService = atendidoService;
-    }
-
+    private EnderecoService enderecoService;
+//TODO Criar exceptions NotfoundException e InvalidRequestException
 
     @PostMapping
     public ResponseEntity<Endereco> cadastrar(@RequestBody Endereco endereco) {
-        Endereco novoEndereco = endereçoService.cadastrarEndereco(endereco);
-        return ResponseEntity.ok(novoEndereco);
+        Endereco novoEndereco = enderecoService.cadastrarEndereco(endereco);
+        return new  ResponseEntity<>(novoEndereco, HttpStatus.CREATED);
     }
 
     @GetMapping
     public ResponseEntity<List<Endereco>> buscarTodos() {
-        List<Endereco> enderecos = endereçoService.listarTodosEnderecos();
-        return ResponseEntity.ok(enderecos);
+        List<Endereco> enderecosList = enderecoService.listarTodosEnderecos();
+        return ResponseEntity.ok(enderecosList);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Endereco> buscarPorId(@PathVariable Long id) {
 
-        Endereco endereco = endereçoService.buscarEnderecoPorId(id);
+        Endereco endereco = enderecoService.buscarEnderecoPorId(id);
         return ResponseEntity.ok(endereco);
     }
 
@@ -48,7 +47,7 @@ public class EnderecoController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> remover(@PathVariable Long id) {
-        atendidoService.deletarAtendido(id);
+        enderecoService.deletarEndereco(id);
         return ResponseEntity.ok("Endereço deletado com sucesso!");
     }
 
