@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+//Classe esta funcioando porém falta criar aos DTOS e implementar os métodos de atualizar e tratar exceções
+
 @RestController
 @RequestMapping("api/telefones")
 @AllArgsConstructor

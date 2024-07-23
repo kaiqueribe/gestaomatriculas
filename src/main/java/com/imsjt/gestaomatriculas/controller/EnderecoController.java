@@ -10,6 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+//Classe esta funcioando porém falta criar aos DTOS e tratar exceções
+
+//TODO Criar exceptions NotfoundException e InvalidRequestException
 
 @RestController
 @RequestMapping("/api/enderecos")
@@ -18,12 +21,12 @@ public class EnderecoController {
 
 
     private EnderecoService enderecoService;
-//TODO Criar exceptions NotfoundException e InvalidRequestException
+
 
     @PostMapping
     public ResponseEntity<Endereco> cadastrar(@RequestBody Endereco endereco) {
         Endereco novoEndereco = enderecoService.cadastrarEndereco(endereco);
-        return new  ResponseEntity<>(novoEndereco, HttpStatus.CREATED);
+        return new ResponseEntity<>(novoEndereco, HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -39,11 +42,12 @@ public class EnderecoController {
         return ResponseEntity.ok(endereco);
     }
 
-    //TODO: Implementar o método de atualizar
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Endereco> atualizar(Long id, Endereco endereco) {
-//        return null;
-//    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Endereco> atualizar(Long id, Endereco endereco) {
+        Endereco enderecoAtualizado = enderecoService.atualizarEndereco(id, endereco);
+        return ResponseEntity.ok(enderecoAtualizado);
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> remover(@PathVariable Long id) {
