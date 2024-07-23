@@ -10,6 +10,7 @@ public class Beneficio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String nomeBeneficio;
     private String tipoBeneficio;
 
