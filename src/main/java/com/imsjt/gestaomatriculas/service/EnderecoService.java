@@ -1,9 +1,11 @@
 package com.imsjt.gestaomatriculas.service;
 
+
 import com.imsjt.gestaomatriculas.entity.Endereco;
 import com.imsjt.gestaomatriculas.exceptions.NotFoundException;
 import com.imsjt.gestaomatriculas.repository.EnderecoRepository;
 import lombok.AllArgsConstructor;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,10 +32,18 @@ public class EnderecoService {
         return endereco;
     }
 
-    //TODO Implementar atualizar EnderecoService
-//    public Atendido atualizarEndereco(Long id, Endereco endereco) {
-//        return null;
-//    }
+
+    public Endereco atualizarEndereco(Long id, Endereco endereco) {
+        Endereco enderecoAtualizado = enderecoRepository.findById(id).orElseThrow(() -> new NotFoundException("Endereco com id: " + id + " não encontrado!"));
+        enderecoAtualizado.setRua(endereco.getRua());
+        enderecoAtualizado.setNumero(endereco.getNumero());
+        enderecoAtualizado.setComplemento(endereco.getComplemento());
+        enderecoAtualizado.setBairro(endereco.getBairro());
+        enderecoAtualizado.setCidade(endereco.getCidade());
+        enderecoAtualizado.setEstado(endereco.getEstado());
+        enderecoAtualizado.setCep(endereco.getCep());
+        return enderecoRepository.save(enderecoAtualizado);
+    }
 
 
     public void deletarEndereco(Long id) {
