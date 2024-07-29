@@ -32,7 +32,6 @@ public class EnderecoService {
         return endereco;
     }
 
-
     public Endereco atualizarEndereco(Long id, Endereco endereco) {
         Endereco enderecoAtualizado = enderecoRepository.findById(id).orElseThrow(() -> new NotFoundException("Endereco com id: " + id + " não encontrado!"));
         enderecoAtualizado.setRua(endereco.getRua());

@@ -16,29 +16,35 @@ public class DadosEscolaresService {
 
     private DadosEscolaresRepository dadosEscolaresRepository;
 
-    private DadosEscolares cadastrarDadosEscolares(DadosEscolares dadosEscolares){
+    public DadosEscolares cadastrarDadosEscolares(DadosEscolares dadosEscolares) {
         DadosEscolares novosDadosEscolares = dadosEscolaresRepository.save(dadosEscolares);
         return novosDadosEscolares;
     }
 
-    private List<DadosEscolares > listarTodosDadosEscolares(){
+    public List<DadosEscolares> listarTodosDadosEscolares() {
         List<DadosEscolares> dadosEscolares = dadosEscolaresRepository.findAll();
         return dadosEscolares.stream().toList();
     }
 
-    private DadosEscolares buscarDadosEscolaresPorId(Long id){
-        DadosEscolares dadosEscolares = dadosEscolaresRepository.findAllById(id).orElseThrow(() -> new NotFoundException("Dados escolares com id: " + id + " não encontrado!"));
+    public DadosEscolares buscarDadosEscolaresPorId(Long id) {
+        DadosEscolares dadosEscolares = dadosEscolaresRepository.findById(id).orElseThrow(() -> new NotFoundException("Dados escolares com id: " + id + " não encontrado!"));
         return dadosEscolares;
     }
 
-    private DadosEscolares atualizarDadosEscolares(Long id, DadosEscolares dadosEscolares){
-        return null;
+    public DadosEscolares atualizarDadosEscolares(Long id, DadosEscolares dadosEscolares) {
+        DadosEscolares dadosEscolaresAtualizado = dadosEscolaresRepository.findById(id).orElseThrow(() -> new NotFoundException("Dados escolares com id: " + id + " não encontrado!"));
+        dadosEscolaresAtualizado.setNomeEscola(dadosEscolares.getNomeEscola());
+        dadosEscolaresAtualizado.setPeriodoEscolar(dadosEscolares.getPeriodoEscolar());
+        dadosEscolaresAtualizado.setSerie(dadosEscolares.getSerie());
+        dadosEscolaresAtualizado.setTurno(dadosEscolares.getTurno());
+
+        return dadosEscolaresRepository.save(dadosEscolaresAtualizado);
     }
 
-    private DadosEscolares removerDadosEscolares(Long id){
-        return null;
+    public void removerDadosEscolares(Long id) {
+        DadosEscolares dadosEscolares = dadosEscolaresRepository.findById(id).orElseThrow(() -> new NotFoundException("Dados escolares com id: " + id + " não encontrado!"));
+        dadosEscolaresRepository.delete(dadosEscolares);
     }
-
 
 
 }
