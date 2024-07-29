@@ -2,10 +2,9 @@ package com.imsjt.gestaomatriculas.controller;
 
 import com.imsjt.gestaomatriculas.entity.Funcionario;
 import com.imsjt.gestaomatriculas.service.FuncionarioService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,24 +18,28 @@ public class FuncionarioController {
     private FuncionarioService funcionarioService;
 
 
-    public ResponseEntity<Funcionario> cadastrarFuncionario(Funcionario funcionario){
-        return null;
+    public ResponseEntity<Funcionario> cadastrarFuncionario(@RequestBody Funcionario funcionario){
+        Funcionario funcionarioCadastrado = funcionarioService.cadastrarFuncionario(funcionario);
+        return new  ResponseEntity<>(funcionarioCadastrado, HttpStatus.CREATED);
     }
 
     public ResponseEntity<List<Funcionario>> listarTodosFuncionarios(){
-        return null;
+        List<Funcionario> funcionarios = funcionarioService.listarTodosFuncionarios();
+        return ResponseEntity.ok(funcionarios);
     }
 
-    public ResponseEntity<Funcionario> buscarPorId(Long id){
-        return null;
+    public ResponseEntity<Funcionario> buscarPorId(@PathVariable Long id){
+        Funcionario funcionario = funcionarioService.buscarPorId(id);
+    return ResponseEntity.ok(funcionario);}
+
+    public ResponseEntity<Funcionario> atualizarFuncionario(@PathVariable Long id, @RequestBody Funcionario funcionario){
+        Funcionario funcionarioAtualizado = funcionarioService.atualizarFuncionario(id,funcionario);
+        return ResponseEntity.ok(funcionarioAtualizado);
     }
 
-    public ResponseEntity<Funcionario> atualizarFuncionario(Long id, Funcionario funcionario){
-        return null;
-    }
-
-    public ResponseEntity<String> removerFuncionario(Long id){
-        return null;
+    public  ResponseEntity<String> removerFuncionario(@PathVariable Long id){
+        funcionarioService.removerFuncionario(id);
+        return ResponseEntity.ok("Funcionario deletado com Sucesso!");
     }
 
 
