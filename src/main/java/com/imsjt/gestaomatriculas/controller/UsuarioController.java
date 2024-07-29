@@ -9,6 +9,8 @@ import java.util.List;
 
 
 //TODO: Integrar service e repository
+//TODO: Fazer Tratamento de exceptions criar DTOS e fazer validação de campos
+
 
 @RestController
 @RequestMapping("/api/usuario")

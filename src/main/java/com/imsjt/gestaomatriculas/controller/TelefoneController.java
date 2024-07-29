@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 //Classe esta funcioando porém falta criar aos DTOS e implementar os métodos de atualizar e tratar exceções
+//TODO: Fazer Tratamento de exceptions criar DTOS e fazer validação de campos
+
 
 @RestController
 @RequestMapping("api/telefones")
@@ -42,16 +44,16 @@ public class TelefoneController {
         return ResponseEntity.ok(telefone);
     }
 
-    //
-//    //TODO: Implementar o método de atualizar
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Telefone> atualizar(Long id, Telefone telefone) {
-//        return null;
-//    }
-//
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Telefone> atualizar(@PathVariable Long id, @RequestBody Telefone telefone) {
+        Telefone tefoneAtualizado = telefoneService.atualizarTelefone(id, telefone);
+        return ResponseEntity.ok(tefoneAtualizado);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> remover(@PathVariable Long id) {
-        telefoneService.deletarTelefone(id);
+        telefoneService.removerTelefone(id);
         return ResponseEntity.ok("Telefone deletado com sucesso! ");
     }
 

@@ -13,6 +13,7 @@ import java.util.List;
 //Classe esta funcioando porém falta criar aos DTOS e tratar exceções
 
 //TODO Criar exceptions NotfoundException e InvalidRequestException
+//TODO: Fazer Tratamento de exceptions criar DTOS e fazer validação de campos
 
 @RestController
 @RequestMapping("/api/enderecos")
@@ -42,9 +43,8 @@ public class EnderecoController {
         return ResponseEntity.ok(endereco);
     }
 
-
     @PutMapping("/{id}")
-    public ResponseEntity<Endereco> atualizar(Long id, Endereco endereco) {
+    public ResponseEntity<Endereco> atualizar(@PathVariable Long id, Endereco endereco) {
         Endereco enderecoAtualizado = enderecoService.atualizarEndereco(id, endereco);
         return ResponseEntity.ok(enderecoAtualizado);
     }
