@@ -22,6 +22,7 @@ public class Atendido {
     private String municipioNascimento;
     private String idade;
     private String Sexo;
+
     @OneToOne
     @JoinColumn(name = "id_Matricula")
     private Matricula matricula;
