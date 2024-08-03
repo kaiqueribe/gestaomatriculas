@@ -18,16 +18,16 @@ public class AtendidoController {
     private AtendidoService atendidoService;
 
 
-        @PostMapping
-        public ResponseEntity<Atendido> cadastrar(@RequestBody Atendido atendido) {
-            Atendido novoAtendido = atendidoService.cadastrarAtendido(atendido);
-            return new ResponseEntity<>(novoAtendido, HttpStatus.CREATED);
-        }
+    @PostMapping
+    public ResponseEntity<Atendido> cadastrar(@RequestBody Atendido atendido) {
+        Atendido novoAtendido = atendidoService.cadastrarAtendido(atendido);
+        return new ResponseEntity<>(novoAtendido, HttpStatus.CREATED);
+    }
 
-        @GetMapping
-        public ResponseEntity<List<Atendido>> listarTodos() {
-            List<Atendido> atendidos = atendidoService.listarTodosAtendidos();
-            return ResponseEntity.ok(atendidos);
+    @GetMapping
+    public ResponseEntity<List<Atendido>> listarTodos() {
+        List<Atendido> atendidos = atendidoService.listarTodosAtendidos();
+        return ResponseEntity.ok(atendidos);
     }
 
     @GetMapping("/{id}")
