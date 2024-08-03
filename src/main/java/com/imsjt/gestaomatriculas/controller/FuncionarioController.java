@@ -18,31 +18,28 @@ public class FuncionarioController {
     private FuncionarioService funcionarioService;
 
 
-    public ResponseEntity<Funcionario> cadastrarFuncionario(@RequestBody Funcionario funcionario){
+    public ResponseEntity<Funcionario> cadastrarFuncionario(@RequestBody Funcionario funcionario) {
         Funcionario funcionarioCadastrado = funcionarioService.cadastrarFuncionario(funcionario);
-        return new  ResponseEntity<>(funcionarioCadastrado, HttpStatus.CREATED);
+        return new ResponseEntity<>(funcionarioCadastrado, HttpStatus.CREATED);
     }
 
-    public ResponseEntity<List<Funcionario>> listarTodosFuncionarios(){
+    public ResponseEntity<List<Funcionario>> listarTodosFuncionarios() {
         List<Funcionario> funcionarios = funcionarioService.listarTodosFuncionarios();
         return ResponseEntity.ok(funcionarios);
     }
 
-    public ResponseEntity<Funcionario> buscarPorId(@PathVariable Long id){
+    public ResponseEntity<Funcionario> buscarPorId(@PathVariable Long id) {
         Funcionario funcionario = funcionarioService.buscarPorId(id);
-    return ResponseEntity.ok(funcionario);}
+        return ResponseEntity.ok(funcionario);
+    }
 
-    public ResponseEntity<Funcionario> atualizarFuncionario(@PathVariable Long id, @RequestBody Funcionario funcionario){
-        Funcionario funcionarioAtualizado = funcionarioService.atualizarFuncionario(id,funcionario);
+    public ResponseEntity<Funcionario> atualizarFuncionario(@PathVariable Long id, @RequestBody Funcionario funcionario) {
+        Funcionario funcionarioAtualizado = funcionarioService.atualizarFuncionario(id, funcionario);
         return ResponseEntity.ok(funcionarioAtualizado);
     }
 
-    public  ResponseEntity<String> removerFuncionario(@PathVariable Long id){
+    public ResponseEntity<String> removerFuncionario(@PathVariable Long id) {
         funcionarioService.removerFuncionario(id);
         return ResponseEntity.ok("Funcionario deletado com Sucesso!");
     }
-
-
-
-
 }
