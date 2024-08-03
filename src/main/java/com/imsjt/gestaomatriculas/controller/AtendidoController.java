@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+//Classe esta funcioando porém falta criar aos DTOS e implementar os métodos de atualizar e tratar exceções
+//TODO: Fazer Tratamento de exceptions criar DTOS e fazer validação de campos
+
 @RestController
 @RequestMapping("/api/atendidos")
 public class AtendidoController {
@@ -15,16 +18,16 @@ public class AtendidoController {
     private AtendidoService atendidoService;
 
 
-        @PostMapping
-        public ResponseEntity<Atendido> cadastrar(@RequestBody Atendido atendido) {
-            Atendido novoAtendido = atendidoService.cadastrarAtendido(atendido);
-            return new ResponseEntity<>(novoAtendido, HttpStatus.CREATED);
-        }
+    @PostMapping
+    public ResponseEntity<Atendido> cadastrar(@RequestBody Atendido atendido) {
+        Atendido novoAtendido = atendidoService.cadastrarAtendido(atendido);
+        return new ResponseEntity<>(novoAtendido, HttpStatus.CREATED);
+    }
 
-        @GetMapping
-        public ResponseEntity<List<Atendido>> buscarTodos() {
-            List<Atendido> atendidos = atendidoService.listarTodosAtendidos();
-            return ResponseEntity.ok(atendidos);
+    @GetMapping
+    public ResponseEntity<List<Atendido>> listarTodos() {
+        List<Atendido> atendidos = atendidoService.listarTodosAtendidos();
+        return ResponseEntity.ok(atendidos);
     }
 
     @GetMapping("/{id}")
@@ -34,11 +37,11 @@ public class AtendidoController {
     }
 //TODO: Implementar o método de atualizar
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Atendido> atualizar(@PathVariable Long id, @RequestBody Atendido atendido) {
-//        Atendido atendidoAtualizado = atendidoService.atualizarAtendido(id, atendido);
-//        return ResponseEntity.ok(atendidoAtualizado);
-//    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Atendido> atualizar(@PathVariable Long id, @RequestBody Atendido atendido) {
+        Atendido atendidoAtualizado = atendidoService.atualizarAtendido(id, atendido);
+        return ResponseEntity.ok(atendidoAtualizado);
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> remover(@PathVariable Long id) {

@@ -10,6 +10,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+//TODO:criar DTOS e verificar metodo Post e Put com DTO implementado
+//TODO: Criar Enum Sexo e Fazer idade ser calculada a partir da data de nascimento
+
+
 @Service
 @AllArgsConstructor
 public class AtendidoService {
@@ -38,10 +42,18 @@ public class AtendidoService {
         return atendido;
     }
 
-//    //TODO: Implementar o método de atualizar
-//    public Atendido atualizarAtendido(Long id, Atendido atendido) {
-//        return null;
-//    }
+    //TODO: Implementar o método de atualizar
+    public Atendido atualizarAtendido(Long id, Atendido atendido) {
+        Atendido atendidoAtualizado = atendidoRepository.findById(id).orElseThrow(() -> new NotFoundException("Atendido com id: "+id+" não encontrado!"));
+        atendidoAtualizado.setNomeCompleto(atendido.getNomeCompleto());
+        atendidoAtualizado.setRg(atendido.getRg());
+        atendidoAtualizado.setCpf(atendido.getCpf());
+        atendidoAtualizado.setDataNascimento(atendido.getDataNascimento());
+        atendidoAtualizado.setMunicipioNascimento(atendido.getMunicipioNascimento());
+        atendidoAtualizado.setIdade(atendido.getIdade());
+        atendidoAtualizado.setSexo(atendido.getSexo());
+        return atendidoRepository.save(atendidoAtualizado);
+    }
 
     public void deletarAtendido(Long id) {
         Atendido atendido = atendidoRepository.findById(id).orElseThrow(() -> new NotFoundException("Atendido com id: "+id+" não encontrado!"));

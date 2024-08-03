@@ -25,8 +25,8 @@ public class TelefoneService {
 
         telefoneRepository.findByNumeroTelefone(telefone.getNumeroTelefone())
                 .ifPresent(numeroTelefone -> {
-            throw new InvalidRequestException("Telefone Já Cadastrado!"+ telefone.getNumeroTelefone());
-        });
+                    throw new InvalidRequestException("Telefone Já Cadastrado!" + telefone.getNumeroTelefone());
+                });
 
         var novoTelefone = telefoneRepository.save(telefone);
         return novoTelefone;
@@ -39,19 +39,22 @@ public class TelefoneService {
     }
 
     public Telefone buscarTelefonePorId(Long id) {
-        Telefone telefone = telefoneRepository.findById(id).orElseThrow(() -> new NotFoundException(" Telefone com id:"+ id + " não encontrado!"));
+        Telefone telefone = telefoneRepository.findById(id).orElseThrow(() -> new NotFoundException(" Telefone com id:" + id + " não encontrado!"));
 
         return telefone;
     }
-    //TODO: Implementar atualizar TelefoneService
-//
-//    public Telefone atualizarTelefone(Long id, Telefone telefone) {
-//        return null;
-//    }
-//
-    public void deletarTelefone(Long id) {
-    Telefone telefone = telefoneRepository.findById(id).orElseThrow(() -> new NotFoundException("Atendido com id:  "+ id +" não encontrado!"));
-    telefoneRepository.delete(telefone);
+
+    public Telefone atualizarTelefone(Long id, Telefone telefone) {
+        Telefone telefoneAtualizado = telefoneRepository.findById(id).orElseThrow(() -> new NotFoundException("Telefone com id: " + id + " não encontrado!"));
+        telefoneAtualizado.setNumeroTelefone(telefone.getNumeroTelefone());
+        telefoneAtualizado.setCategoriaTelefone(telefone.getCategoriaTelefone());
+
+        return telefoneRepository.save(telefoneAtualizado);
+    }
+
+    public void removerTelefone(Long id) {
+        Telefone telefone = telefoneRepository.findById(id).orElseThrow(() -> new NotFoundException("Atendido com id:  " + id + " não encontrado!"));
+        telefoneRepository.delete(telefone);
     }
 
 }

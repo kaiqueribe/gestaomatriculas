@@ -1,9 +1,13 @@
 package com.imsjt.gestaomatriculas.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
-
+@Getter
+@Setter
 @Entity(name = "responsavel")
 public class Responsavel {
     @Id
@@ -12,10 +16,17 @@ public class Responsavel {
     private String nomeCompleto;
     private String rg;
     private String cpf;
+    private String email;
+    @OneToOne
+    @JoinColumn(name = "id_Endereco")
+    @JsonIgnore
+    private Endereco endereco;
     @OneToMany
     @JoinColumn(name = "id_Telefones")
+    @JsonIgnore
     private List<Telefone> telefones;
     @ManyToOne
     @JoinColumn(name = "id_Atendido")
+    @JsonIgnore
     private Atendido atendido;
 }
