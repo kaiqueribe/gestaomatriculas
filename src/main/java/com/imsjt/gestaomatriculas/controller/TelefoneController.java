@@ -19,8 +19,6 @@ import java.util.List;
 @AllArgsConstructor
 public class TelefoneController {
 
-    //TODO: Criar exceptions NotfoundException e InvalidRequestException
-
     private final TelefoneService telefoneService;
 
 

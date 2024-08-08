@@ -2,17 +2,18 @@ package com.imsjt.gestaomatriculas.controller;
 
 import com.imsjt.gestaomatriculas.entity.Matricula;
 import com.imsjt.gestaomatriculas.service.MatriculaService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//TODO: Implementar o método de atualizar
-
+//TODO: Fazer Tratamento de exceptions criar DTOS e fazer validação de campos
 
 @RestController
 @RequestMapping("/api/matriculas")
+@AllArgsConstructor
 public class MatriculaController {
 
     private MatriculaService matriculaService;
