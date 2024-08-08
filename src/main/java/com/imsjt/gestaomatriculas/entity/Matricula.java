@@ -20,7 +20,6 @@ public class Matricula {
 
     @OneToOne
     @JoinColumn(name = "id_Atendido")
-    @JsonIgnore
     private Atendido atendido;
 
     //TODO Matricula realizada por funcionario tal

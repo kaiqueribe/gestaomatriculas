@@ -1,5 +1,6 @@
 package com.imsjt.gestaomatriculas.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,22 +26,28 @@ public class Atendido {
 
     @OneToOne
     @JoinColumn(name = "id_Matricula")
+    @JsonIgnore
     private Matricula matricula;
 
     @OneToMany
     @JoinColumn (name = "id_Responsavel")
+    @JsonIgnore
     private List<Responsavel> responsavelList;
     @OneToMany
     @JoinColumn(name = "id_Telefones")
+    @JsonIgnore
     private List <Telefone> telefones;
     @OneToOne
     @JoinColumn(name = "id_Endereco")
+    @JsonIgnore
     private Endereco endereco;
     @OneToOne
     @JoinColumn(name = "id_DadosEscolares")
+    @JsonIgnore
     private DadosEscolares dadosEscolares;
     @OneToMany
     @JoinColumn(name = "id_DadosSociais")
+    @JsonIgnore
     private List<DadosSociais> dadosSociais;
 
 

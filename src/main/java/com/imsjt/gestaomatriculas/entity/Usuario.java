@@ -1,6 +1,12 @@
 package com.imsjt.gestaomatriculas.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Entity(name = "usuario")
 public class Usuario {
 
@@ -11,6 +17,7 @@ public class Usuario {
     private String password;
     @OneToOne
     @JoinColumn(name = "id_Funcionario")
+    @JsonIgnore
     private Funcionario funcionario;
 
 }
