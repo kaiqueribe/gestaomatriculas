@@ -52,9 +52,10 @@ public class TelefoneService {
         return telefoneRepository.save(telefoneAtualizado);
     }
 
-    public void removerTelefone(Long id) {
+    public String removerTelefone(Long id) {
         Telefone telefone = telefoneRepository.findById(id).orElseThrow(() -> new NotFoundException("Atendido com id:  " + id + " não encontrado!"));
         telefoneRepository.delete(telefone);
+        return "Telefone removido com sucesso!";
     }
 
 }

@@ -14,22 +14,22 @@ public class ResponsavelService {
 
     private ResponsavelRepository responsavelRepository;
 
-    public Responsavel cadastrarResponsavel(Responsavel responsavel){
+    public Responsavel cadastrarResponsavel(Responsavel responsavel) {
         return responsavelRepository.save(responsavel);
     }
 
-    public List<Responsavel> listarTodosResponsaveis(){
-        List<Responsavel>responsavelList = responsavelRepository.findAll();
+    public List<Responsavel> listarTodosResponsaveis() {
+        List<Responsavel> responsavelList = responsavelRepository.findAll();
         return responsavelList.stream().toList();
     }
 
-    public Responsavel buscarPorId(Long id){
-        Responsavel responsavel =  responsavelRepository.findById(id).orElseThrow(() -> new NotFoundException(" Responsável com o id: "+id +" não encontrado! "));
+    public Responsavel buscarPorId(Long id) {
+        Responsavel responsavel = responsavelRepository.findById(id).orElseThrow(() -> new NotFoundException(" Responsável com o id: " + id + " não encontrado! "));
         return responsavel;
     }
 
-    public Responsavel atualizarResponsavel(Long id, Responsavel responsavel){
-        Responsavel responsavelAtualizado = responsavelRepository.findById(id).orElseThrow(() -> new NotFoundException(" Responsável com o id: "+id +" não encontrado! "));
+    public Responsavel atualizarResponsavel(Long id, Responsavel responsavel) {
+        Responsavel responsavelAtualizado = responsavelRepository.findById(id).orElseThrow(() -> new NotFoundException(" Responsável com o id: " + id + " não encontrado! "));
         responsavelAtualizado.setNomeCompleto(responsavel.getNomeCompleto());
         responsavelAtualizado.setCpf(responsavel.getCpf());
         responsavelAtualizado.setEmail(responsavel.getEmail());
@@ -38,9 +38,10 @@ public class ResponsavelService {
         return responsavelRepository.save(responsavelAtualizado);
     }
 
-    public void removerResponsavel(Long id){
-        Responsavel responsavel = responsavelRepository.findById(id).orElseThrow(() -> new NotFoundException(" Responsável com o id: "+id +" não encontrado! "));
+    public String removerResponsavel(Long id) {
+        Responsavel responsavel = responsavelRepository.findById(id).orElseThrow(() -> new NotFoundException(" Responsável com o id: " + id + " não encontrado! "));
         responsavelRepository.delete(responsavel);
+        return "Responsável removido com sucesso!";
     }
 
 

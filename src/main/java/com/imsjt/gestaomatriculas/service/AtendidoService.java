@@ -38,13 +38,12 @@ public class AtendidoService {
     }
 
     public Atendido buscarAtendidoPorId(Long id) {
-        Atendido atendido = atendidoRepository.findById(id).orElseThrow(() -> new NotFoundException("Atendido com id: "+id+" não encontrado!"));
+        Atendido atendido = atendidoRepository.findById(id).orElseThrow(() -> new NotFoundException("Atendido com id: " + id + " não encontrado!"));
         return atendido;
     }
 
-    //TODO: Implementar o método de atualizar
     public Atendido atualizarAtendido(Long id, Atendido atendido) {
-        Atendido atendidoAtualizado = atendidoRepository.findById(id).orElseThrow(() -> new NotFoundException("Atendido com id: "+id+" não encontrado!"));
+        Atendido atendidoAtualizado = atendidoRepository.findById(id).orElseThrow(() -> new NotFoundException("Atendido com id: " + id + " não encontrado!"));
         atendidoAtualizado.setNomeCompleto(atendido.getNomeCompleto());
         atendidoAtualizado.setRg(atendido.getRg());
         atendidoAtualizado.setCpf(atendido.getCpf());
@@ -56,7 +55,7 @@ public class AtendidoService {
     }
 
     public void deletarAtendido(Long id) {
-        Atendido atendido = atendidoRepository.findById(id).orElseThrow(() -> new NotFoundException("Atendido com id: "+id+" não encontrado!"));
+        Atendido atendido = atendidoRepository.findById(id).orElseThrow(() -> new NotFoundException("Atendido com id: " + id + " não encontrado!"));
         atendidoRepository.delete(atendido);
 
     }
