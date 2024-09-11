@@ -1,7 +1,9 @@
 package com.imsjt.gestaomatriculas.controller;
 
-import com.imsjt.gestaomatriculas.entity.Atendido;
+import com.imsjt.gestaomatriculas.dto.AtendidoDTO;
+
 import com.imsjt.gestaomatriculas.service.AtendidoService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,27 +23,27 @@ public class AtendidoController {
 
 
     @PostMapping
-    public ResponseEntity<Atendido> cadastrar(@RequestBody Atendido atendido) {
-        Atendido novoAtendido = atendidoService.cadastrarAtendido(atendido);
+    public ResponseEntity<AtendidoDTO> cadastrar(@Valid @RequestBody AtendidoDTO atendidoDTO) {
+        AtendidoDTO novoAtendido = atendidoService.cadastrarAtendido(atendidoDTO);
         return new ResponseEntity<>(novoAtendido, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<Atendido>> listarTodos() {
-        List<Atendido> atendidos = atendidoService.listarTodosAtendidos();
+    public ResponseEntity<List<AtendidoDTO>> listarTodos() {
+        List<AtendidoDTO> atendidos = atendidoService.listarTodosAtendidos();
         return ResponseEntity.ok(atendidos);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Atendido> buscarPorId(@PathVariable Long id) {
-        Atendido atendido = atendidoService.buscarAtendidoPorId(id);
+    public ResponseEntity<AtendidoDTO> buscarPorId(@PathVariable Long id) {
+        AtendidoDTO atendido = atendidoService.buscarAtendidoPorId(id);
         return ResponseEntity.ok(atendido);
     }
 //TODO: Implementar o método de atualizar
 
     @PutMapping("/{id}")
-    public ResponseEntity<Atendido> atualizar(@PathVariable Long id, @RequestBody Atendido atendido) {
-        Atendido atendidoAtualizado = atendidoService.atualizarAtendido(id, atendido);
+    public ResponseEntity<AtendidoDTO> atualizar(@Valid @PathVariable Long id, @RequestBody AtendidoDTO atendidoDTO) {
+        AtendidoDTO atendidoAtualizado = atendidoService.atualizarAtendido(id, atendidoDTO);
         return ResponseEntity.ok(atendidoAtualizado);
     }
 
