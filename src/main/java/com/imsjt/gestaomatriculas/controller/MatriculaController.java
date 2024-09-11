@@ -1,40 +1,29 @@
 package com.imsjt.gestaomatriculas.controller;
 
 import com.imsjt.gestaomatriculas.entity.Matricula;
-import com.imsjt.gestaomatriculas.service.MatriculaService;
+import com.imsjt.gestaomatriculas.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 //TODO: Fazer Tratamento de exceptions criar DTOS e fazer validação de campos
 
 @RestController
-@RequestMapping("/api/matriculas")
+@RequestMapping("/api/matricula")
 @AllArgsConstructor
 public class MatriculaController {
 
     private MatriculaService matriculaService;
 
+
+
     @PostMapping
-    public ResponseEntity<Matricula> cadastrar(Matricula matricula) {
-        Matricula novaMatricula = matriculaService.cadastrarMatricula(matricula);
+    public ResponseEntity<Matricula> matricularAtendido(Matricula matricula) {
+        Matricula novaMatricula = matriculaService.matricularAtendido(matricula);
         return new ResponseEntity<>(novaMatricula, HttpStatus.CREATED);
     }
 
-    @GetMapping
-    public ResponseEntity<List<Matricula>> listarTodos() {
-        List<Matricula> matriculasList = matriculaService.listarTodasMatriculas();
-        return ResponseEntity.ok(matriculasList);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Matricula> buscarPorId(@PathVariable Long id) {
-        Matricula matricula = matriculaService.buscarPorId(id);
-        return ResponseEntity.ok(matricula);
-    }
 
     @PutMapping
     public ResponseEntity<Matricula> atualizarMatricula(@PathVariable Long id, @RequestBody Matricula matricula) {
