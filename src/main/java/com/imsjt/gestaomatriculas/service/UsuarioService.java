@@ -36,8 +36,8 @@ public class UsuarioService {
         return usuarioMapper.toDTO(usuario);
     }
 
-    public UsuarioDTO atualizarUsuario(Long id, UsuarioDTO usuario) {
-        usuarioMapper.toEntity(usuario);
+    public UsuarioDTO atualizarUsuario(Long id, UsuarioDTO usuarioDTO) {
+        Usuario usuario = usuarioMapper.toEntity(usuarioDTO);
         Usuario usuarioAtualizado = usuarioRepository.findById(id).orElseThrow(() -> new NotFoundException("Usuario com id: " + id + " não encontrado!"));
         usuarioAtualizado.setUsername(usuario.getUsername());
         usuarioAtualizado.setPassword(usuario.getPassword());
