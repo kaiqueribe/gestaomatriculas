@@ -1,6 +1,6 @@
 package com.imsjt.gestaomatriculas.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,5 +22,4 @@ public class Matricula {
     @JoinColumn(name = "id_Atendido")
     private Atendido atendido;
 
-    //TODO Matricula realizada por funcionario tal
 }
