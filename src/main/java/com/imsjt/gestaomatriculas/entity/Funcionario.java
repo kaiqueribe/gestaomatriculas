@@ -16,6 +16,11 @@ public class Funcionario {
     private String nomeFuncionario;
     private String emailFuncionario;
     private String cargoFuncionario;
+    private String unidadeFuncionario;
+
+    @OneToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 
 
 

@@ -17,7 +17,6 @@ public class Usuario {
     private String password;
     @OneToOne
     @JoinColumn(name = "id_Funcionario")
-    @JsonIgnore
     private Funcionario funcionario;
 
 }
