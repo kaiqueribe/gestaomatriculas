@@ -1,7 +1,10 @@
 package com.imsjt.gestaomatriculas.service;
 
+import com.imsjt.gestaomatriculas.dto.ResponsavelDTO;
 import com.imsjt.gestaomatriculas.entity.Responsavel;
+import com.imsjt.gestaomatriculas.exceptions.InvalidRequestException;
 import com.imsjt.gestaomatriculas.exceptions.NotFoundException;
+import com.imsjt.gestaomatriculas.mapper.ResponsavelMapper;
 import com.imsjt.gestaomatriculas.repository.ResponsavelRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,29 +16,35 @@ import java.util.List;
 public class ResponsavelService {
 
     private ResponsavelRepository responsavelRepository;
+    private final ResponsavelMapper responsavelMapper;
 
-    public Responsavel cadastrarResponsavel(Responsavel responsavel) {
-        return responsavelRepository.save(responsavel);
+    public ResponsavelDTO cadastrarResponsavel(ResponsavelDTO responsavelDTO) {
+        Responsavel responsavel = responsavelMapper.toEntity(responsavelDTO);
+        responsavelRepository.findByCpf(responsavel.getCpf()).ifPresent(responsavelCpf -> {
+            throw new InvalidRequestException("CPF já Cadastrado!" + responsavel.getCpf());
+        });
+        Responsavel novoResponsavel = responsavelRepository.save(responsavel);
+        return responsavelMapper.toDTO(novoResponsavel);
     }
 
-    public List<Responsavel> listarTodosResponsaveis() {
+    public List<ResponsavelDTO> listarTodosResponsaveis() {
         List<Responsavel> responsavelList = responsavelRepository.findAll();
-        return responsavelList.stream().toList();
+        return responsavelList.stream().map(responsavelMapper::toDTO).toList();
     }
 
-    public Responsavel buscarPorId(Long id) {
+    public ResponsavelDTO buscarPorId(Long id) {
         Responsavel responsavel = responsavelRepository.findById(id).orElseThrow(() -> new NotFoundException(" Responsável com o id: " + id + " não encontrado! "));
-        return responsavel;
+        return responsavelMapper.toDTO(responsavel);
     }
 
-    public Responsavel atualizarResponsavel(Long id, Responsavel responsavel) {
+    public ResponsavelDTO atualizarResponsavel(Long id, ResponsavelDTO responsavelDTO) {
+        Responsavel responsavel = responsavelMapper.toEntity(responsavelDTO);
         Responsavel responsavelAtualizado = responsavelRepository.findById(id).orElseThrow(() -> new NotFoundException(" Responsável com o id: " + id + " não encontrado! "));
         responsavelAtualizado.setNomeCompleto(responsavel.getNomeCompleto());
         responsavelAtualizado.setCpf(responsavel.getCpf());
         responsavelAtualizado.setEmail(responsavel.getEmail());
-        responsavelAtualizado.setTelefones(responsavel.getTelefones());
-        responsavelAtualizado.setEndereco(responsavel.getEndereco());
-        return responsavelRepository.save(responsavelAtualizado);
+        responsavelRepository.save(responsavelAtualizado);
+        return responsavelMapper.toDTO(responsavelAtualizado);
     }
 
     public String removerResponsavel(Long id) {

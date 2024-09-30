@@ -1,9 +1,12 @@
 package com.imsjt.gestaomatriculas.service;
 
+import com.imsjt.gestaomatriculas.dto.TelefoneDTO;
 import com.imsjt.gestaomatriculas.entity.Telefone;
 
 import com.imsjt.gestaomatriculas.exceptions.InvalidRequestException;
 import com.imsjt.gestaomatriculas.exceptions.NotFoundException;
+import com.imsjt.gestaomatriculas.mapper.TelefoneMapper;
+import com.imsjt.gestaomatriculas.repository.AtendidoRepository;
 import com.imsjt.gestaomatriculas.repository.TelefoneRepository;
 
 
@@ -18,38 +21,46 @@ import java.util.List;
 @AllArgsConstructor
 public class TelefoneService {
 
+//atendidorepository vai ser utilizado na implementação do atrelamento telefone ao atendido
+    private AtendidoRepository atendidoRepository;
     private TelefoneRepository telefoneRepository;
+    private final TelefoneMapper telefoneMapper;
 
 
-    public Telefone cadastrarTelefone(Telefone telefone) {
+    //TODO implementar logica que atrela telefone a Atendido
+
+    public TelefoneDTO cadastrarTelefone(TelefoneDTO telefoneDTO) {
+        Telefone telefone = telefoneMapper.toEntity(telefoneDTO);
 
         telefoneRepository.findByNumeroTelefone(telefone.getNumeroTelefone())
                 .ifPresent(numeroTelefone -> {
-                    throw new InvalidRequestException("Telefone Já Cadastrado!" + telefone.getNumeroTelefone());
+                    throw new InvalidRequestException("Telefone Já Cadastrado! " + telefone.getNumeroTelefone());
                 });
 
-        var novoTelefone = telefoneRepository.save(telefone);
-        return novoTelefone;
+        Telefone novoTelefone = telefoneRepository.save(telefone);
+        return telefoneMapper.toDTO(novoTelefone);
 
     }
 
-    public List<Telefone> listarTodosTelefones() {
+    public List<TelefoneDTO> listarTodosTelefones() {
         List<Telefone> telefones = telefoneRepository.findAll();
-        return telefones.stream().toList();
+        return telefones.stream().map(telefoneMapper::toDTO).toList();
     }
 
-    public Telefone buscarTelefonePorId(Long id) {
-        Telefone telefone = telefoneRepository.findById(id).orElseThrow(() -> new NotFoundException(" Telefone com id:" + id + " não encontrado!"));
+    public TelefoneDTO buscarTelefonePorId(Long id) {
+        Telefone telefone = telefoneRepository.findById(id).orElseThrow(() -> new NotFoundException(" Telefone com id: " + id + " não encontrado!"));
 
-        return telefone;
+        return telefoneMapper.toDTO(telefone);
     }
 
-    public Telefone atualizarTelefone(Long id, Telefone telefone) {
+    public TelefoneDTO atualizarTelefone(Long id, TelefoneDTO telefoneDTO) {
+        Telefone telefone = telefoneMapper.toEntity(telefoneDTO);
         Telefone telefoneAtualizado = telefoneRepository.findById(id).orElseThrow(() -> new NotFoundException("Telefone com id: " + id + " não encontrado!"));
+        telefoneAtualizado.setTituloTelefone(telefone.getTituloTelefone());
         telefoneAtualizado.setNumeroTelefone(telefone.getNumeroTelefone());
-        telefoneAtualizado.setCategoriaTelefone(telefone.getCategoriaTelefone());
-
-        return telefoneRepository.save(telefoneAtualizado);
+        telefoneAtualizado.setTipoTelefone(telefone.getTipoTelefone());
+        telefoneRepository.save(telefoneAtualizado);
+        return telefoneMapper.toDTO(telefoneAtualizado);
     }
 
     public String removerTelefone(Long id) {

@@ -31,6 +31,8 @@ public class AtendidoService {
         atendidoRepository.findByCpf(atendido.getCpf()).ifPresent(atendidoCpf -> {
             throw new InvalidRequestException("CPF já Cadastrado! " + atendido.getCpf());
         });
+
+
         Atendido novoAtendido = atendidoRepository.save(atendido);
         return atendidoMapper.toDTO(atendido);
 
