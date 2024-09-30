@@ -1,7 +1,9 @@
 package com.imsjt.gestaomatriculas.controller;
 
+import com.imsjt.gestaomatriculas.dto.TelefoneDTO;
 import com.imsjt.gestaomatriculas.entity.Telefone;
 import com.imsjt.gestaomatriculas.service.TelefoneService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 
@@ -11,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 //Classe esta funcioando porém falta criar aos DTOS e implementar os métodos de atualizar e tratar exceções
-//TODO: Fazer Tratamento de exceptions criar DTOS e fazer validação de campos
+
 
 
 @RestController
@@ -23,29 +25,29 @@ public class TelefoneController {
 
 
     @PostMapping
-    public ResponseEntity<Telefone> cadastrar(@RequestBody Telefone telefone) {
+    public ResponseEntity<TelefoneDTO> cadastrar(@Valid @RequestBody TelefoneDTO telefoneDTO) {
 
-        var telefoneCadastrado = telefoneService.cadastrarTelefone(telefone);
+        TelefoneDTO telefoneCadastrado = telefoneService.cadastrarTelefone(telefoneDTO);
 
         return new ResponseEntity<>(telefoneCadastrado, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<Telefone>> buscarTodos() {
-        List<Telefone> telefones = telefoneService.listarTodosTelefones();
+    public ResponseEntity<List<TelefoneDTO>> buscarTodos() {
+        List<TelefoneDTO> telefones = telefoneService.listarTodosTelefones();
         return ResponseEntity.ok(telefones);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Telefone> buscarPorId(@PathVariable Long id) {
-        Telefone telefone = telefoneService.buscarTelefonePorId(id);
+    public ResponseEntity<TelefoneDTO> buscarPorId(@PathVariable Long id) {
+        TelefoneDTO telefone = telefoneService.buscarTelefonePorId(id);
         return ResponseEntity.ok(telefone);
     }
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<Telefone> atualizar(@PathVariable Long id, @RequestBody Telefone telefone) {
-        Telefone tefoneAtualizado = telefoneService.atualizarTelefone(id, telefone);
+    public ResponseEntity<TelefoneDTO> atualizar(@PathVariable Long id,@Valid @RequestBody TelefoneDTO telefoneDTO) {
+        TelefoneDTO tefoneAtualizado = telefoneService.atualizarTelefone(id, telefoneDTO);
         return ResponseEntity.ok(tefoneAtualizado);
     }
 

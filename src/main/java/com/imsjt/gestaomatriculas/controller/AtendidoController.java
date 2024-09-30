@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 //Classe esta funcionando porém falta criar aos DTOS e implementar os métodos de atualizar e tratar exceções
-//TODO: Fazer Tratamento de exceptions criar DTOS e fazer validação de campos
+
 
 @RestController
 @RequestMapping("/api/atendidos")
@@ -20,7 +20,6 @@ import java.util.List;
 public class AtendidoController {
 
     private AtendidoService atendidoService;
-
 
     @PostMapping
     public ResponseEntity<AtendidoDTO> cadastrar(@Valid @RequestBody AtendidoDTO atendidoDTO) {

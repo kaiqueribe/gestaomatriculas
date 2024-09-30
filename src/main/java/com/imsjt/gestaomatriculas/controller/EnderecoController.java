@@ -1,8 +1,10 @@
 package com.imsjt.gestaomatriculas.controller;
 
+import com.imsjt.gestaomatriculas.dto.EnderecoDTO;
 import com.imsjt.gestaomatriculas.entity.Endereco;
 
 import com.imsjt.gestaomatriculas.service.EnderecoService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,10 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-//Classe esta funcioando porém falta criar aos DTOS e tratar exceções
-
-//TODO Criar exceptions NotfoundException e InvalidRequestException
-//TODO: Fazer Tratamento de exceptions criar DTOS e fazer validação de campos
 
 @RestController
 @RequestMapping("/api/enderecos")
@@ -25,27 +23,27 @@ public class EnderecoController {
 
 
     @PostMapping
-    public ResponseEntity<Endereco> cadastrar(@RequestBody Endereco endereco) {
-        Endereco novoEndereco = enderecoService.cadastrarEndereco(endereco);
+    public ResponseEntity<EnderecoDTO> cadastrar(@Valid @RequestBody EnderecoDTO enderecoDTO) {
+        EnderecoDTO novoEndereco = enderecoService.cadastrarEndereco(enderecoDTO);
         return new ResponseEntity<>(novoEndereco, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<Endereco>> buscarTodos() {
-        List<Endereco> enderecosList = enderecoService.listarTodosEnderecos();
+    public ResponseEntity<List<EnderecoDTO>> buscarTodos() {
+        List<EnderecoDTO> enderecosList = enderecoService.listarTodosEnderecos();
         return ResponseEntity.ok(enderecosList);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Endereco> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<EnderecoDTO> buscarPorId(@PathVariable Long id) {
 
-        Endereco endereco = enderecoService.buscarEnderecoPorId(id);
+        EnderecoDTO endereco = enderecoService.buscarEnderecoPorId(id);
         return ResponseEntity.ok(endereco);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Endereco> atualizar(@PathVariable Long id, Endereco endereco) {
-        Endereco enderecoAtualizado = enderecoService.atualizarEndereco(id, endereco);
+    public ResponseEntity<EnderecoDTO> atualizar(@Valid @PathVariable Long id, EnderecoDTO enderecoDTO) {
+        EnderecoDTO enderecoAtualizado = enderecoService.atualizarEndereco(id, enderecoDTO);
         return ResponseEntity.ok(enderecoAtualizado);
     }
 
