@@ -1,10 +1,12 @@
 package com.imsjt.gestaomatriculas.mapper;
 
-import com.imsjt.gestaomatriculas.dto.DadosEscolaresDTO;
-import com.imsjt.gestaomatriculas.entity.DadosEscolares;
+import com.imsjt.gestaomatriculas.dto.MatriculaDTO;
+import com.imsjt.gestaomatriculas.entity.Matricula;
+import org.mapstruct.Mapper;
 
+@Mapper
 public interface MatriculaMapper {
-    DadosEscolaresDTO toDTO(DadosEscolares entity);
+    MatriculaDTO toDTO(Matricula entity);
 
-    DadosEscolares toEntity(DadosEscolaresDTO dadosEscolaresDTO);
+    Matricula toEntity(MatriculaDTO matriculaDTO);
 }
