@@ -1,5 +1,6 @@
 package com.imsjt.gestaomatriculas.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,7 @@ public class Atendido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String numeroMatricula;
     private String nomeCompleto;
     private String rg;
     private String cpf;
@@ -23,24 +25,25 @@ public class Atendido {
     private String idade;
     private String Sexo;
 
-    @OneToOne
-    @JoinColumn(name = "id_Matricula")
-    private Matricula matricula;
-
     @OneToMany
-    @JoinColumn (name = "id_Responsavel")
+    @JoinColumn (name = "responsavel_id")
+    @JsonIgnore
     private List<Responsavel> responsavelList;
     @OneToMany
-    @JoinColumn(name = "id_Telefones")
+    @JoinColumn(name = "telefones_id")
+    @JsonIgnore
     private List <Telefone> telefones;
     @OneToOne
-    @JoinColumn(name = "id_Endereco")
+    @JoinColumn(name = "endereco_id")
+    @JsonIgnore
     private Endereco endereco;
     @OneToOne
-    @JoinColumn(name = "id_DadosEscolares")
+    @JoinColumn(name = "dadosEscolares_id")
+    @JsonIgnore
     private DadosEscolares dadosEscolares;
     @OneToMany
-    @JoinColumn(name = "id_DadosSociais")
+    @JoinColumn(name = "dadosSociais_id")
+    @JsonIgnore
     private List<DadosSociais> dadosSociais;
 
 

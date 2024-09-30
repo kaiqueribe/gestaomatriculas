@@ -1,9 +1,6 @@
 package com.imsjt.gestaomatriculas.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity (name = "beneficio")
 public class Beneficio {
@@ -13,5 +10,9 @@ public class Beneficio {
 
     private String nomeBeneficio;
     private String tipoBeneficio;
+
+    @ManyToOne
+    @JoinColumn(name = "dadosSociais_id")
+    private DadosSociais dadosSociais;
 
 }

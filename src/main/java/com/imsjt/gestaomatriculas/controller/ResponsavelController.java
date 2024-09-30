@@ -1,7 +1,9 @@
 package com.imsjt.gestaomatriculas.controller;
 
+import com.imsjt.gestaomatriculas.dto.ResponsavelDTO;
 import com.imsjt.gestaomatriculas.entity.Responsavel;
 import com.imsjt.gestaomatriculas.service.ResponsavelService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 import org.springframework.http.HttpStatus;
@@ -9,9 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-
-//TODO: Fazer Tratamento de exceptions criar DTOS e fazer validação de campos
 
 @RestController
 @RequestMapping("/api/responsavel")
@@ -21,26 +20,26 @@ public class ResponsavelController {
     private ResponsavelService responsavelService;
 
     @PostMapping
-    public ResponseEntity<Responsavel> cadastrarResponsavel(@RequestBody Responsavel responsavel) {
-        Responsavel novoResponsavel = responsavelService.cadastrarResponsavel(responsavel);
+    public ResponseEntity<ResponsavelDTO> cadastrarResponsavel(@Valid @RequestBody ResponsavelDTO responsavelDTO) {
+        ResponsavelDTO novoResponsavel = responsavelService.cadastrarResponsavel(responsavelDTO);
         return new ResponseEntity<>(novoResponsavel, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<Responsavel>> listarTodosResponsaveis() {
-        List<Responsavel> responsavelList = responsavelService.listarTodosResponsaveis();
+    public ResponseEntity<List<ResponsavelDTO>> listarTodosResponsaveis() {
+        List<ResponsavelDTO> responsavelList = responsavelService.listarTodosResponsaveis();
         return ResponseEntity.ok(responsavelList);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Responsavel> buscarPorId(@PathVariable Long id) {
-        Responsavel responsavel = responsavelService.buscarPorId(id);
+    public ResponseEntity<ResponsavelDTO> buscarPorId(@PathVariable Long id) {
+        ResponsavelDTO responsavel = responsavelService.buscarPorId(id);
         return ResponseEntity.ok(responsavel);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Responsavel> atualizarResponsavel(@PathVariable Long id, @RequestBody Responsavel responsavel) {
-        Responsavel responsavelAtualizado = responsavelService.atualizarResponsavel(id, responsavel);
+    public ResponseEntity<ResponsavelDTO> atualizarResponsavel(@PathVariable Long id,@Valid @RequestBody ResponsavelDTO responsavelDTO) {
+        ResponsavelDTO responsavelAtualizado = responsavelService.atualizarResponsavel(id, responsavelDTO);
         return ResponseEntity.ok(responsavelAtualizado);
     }
 

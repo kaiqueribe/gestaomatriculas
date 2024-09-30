@@ -1,9 +1,6 @@
 package com.imsjt.gestaomatriculas.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +14,7 @@ public class Endereco {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String titulo;
     private String rua;
     private String numero;
     private String complemento;
@@ -24,5 +22,9 @@ public class Endereco {
     private String cidade;
     private String estado;
     private String cep;
+
+    @ManyToOne
+    @JoinColumn(name = "atendido_id")
+    private Atendido atendido;
 
 }

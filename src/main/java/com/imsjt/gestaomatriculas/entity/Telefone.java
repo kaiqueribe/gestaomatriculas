@@ -1,9 +1,7 @@
 package com.imsjt.gestaomatriculas.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.imsjt.gestaomatriculas.enums.TipoTelefone;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,7 +15,15 @@ public class Telefone {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String tituloTelefone;
     private String numeroTelefone;
-    private String categoriaTelefone;
+
+    @Enumerated(EnumType.STRING)
+    private TipoTelefone tipoTelefone;
+
+    @ManyToOne
+    @JoinColumn(name = "atendido_id")
+    private Atendido atendido;
+
 
 }

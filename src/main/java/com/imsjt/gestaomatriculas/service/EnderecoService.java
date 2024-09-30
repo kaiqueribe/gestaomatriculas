@@ -1,8 +1,10 @@
 package com.imsjt.gestaomatriculas.service;
 
 
+import com.imsjt.gestaomatriculas.dto.EnderecoDTO;
 import com.imsjt.gestaomatriculas.entity.Endereco;
 import com.imsjt.gestaomatriculas.exceptions.NotFoundException;
+import com.imsjt.gestaomatriculas.mapper.EnderecoMapper;
 import com.imsjt.gestaomatriculas.repository.EnderecoRepository;
 import lombok.AllArgsConstructor;
 
@@ -15,24 +17,28 @@ import java.util.List;
 public class EnderecoService {
 
     private EnderecoRepository enderecoRepository;
+    private final EnderecoMapper enderecoMapper;
 
-    //TODO Implementar todos os metodos com as regras de negocio
-    public Endereco cadastrarEndereco(Endereco endereco) {
+    public EnderecoDTO cadastrarEndereco(EnderecoDTO enderecoDTO) {
+
+        Endereco endereco = enderecoMapper.toEntity(enderecoDTO);
         Endereco novoEndereco = enderecoRepository.save(endereco);
-        return novoEndereco;
+
+        return enderecoMapper.toDTO(novoEndereco);
     }
 
-    public List<Endereco> listarTodosEnderecos() {
+    public List<EnderecoDTO> listarTodosEnderecos() {
         List<Endereco> enderecos = enderecoRepository.findAll();
-        return enderecos.stream().toList();
+        return enderecos.stream().map(enderecoMapper::toDTO).toList();
     }
 
-    public Endereco buscarEnderecoPorId(Long id) {
+    public EnderecoDTO buscarEnderecoPorId(Long id) {
         Endereco endereco = enderecoRepository.findById(id).orElseThrow(() -> new NotFoundException("Endereco com id: " + id + " não encontrado!"));
-        return endereco;
+        return enderecoMapper.toDTO(endereco);
     }
 
-    public Endereco atualizarEndereco(Long id, Endereco endereco) {
+    public EnderecoDTO atualizarEndereco(Long id, EnderecoDTO enderecoDTO) {
+        Endereco endereco = enderecoMapper.toEntity(enderecoDTO);
         Endereco enderecoAtualizado = enderecoRepository.findById(id).orElseThrow(() -> new NotFoundException("Endereco com id: " + id + " não encontrado!"));
         enderecoAtualizado.setRua(endereco.getRua());
         enderecoAtualizado.setNumero(endereco.getNumero());
@@ -41,7 +47,8 @@ public class EnderecoService {
         enderecoAtualizado.setCidade(endereco.getCidade());
         enderecoAtualizado.setEstado(endereco.getEstado());
         enderecoAtualizado.setCep(endereco.getCep());
-        return enderecoRepository.save(enderecoAtualizado);
+        enderecoRepository.save(enderecoAtualizado);
+        return enderecoMapper.toDTO(enderecoAtualizado);
     }
 
 

@@ -20,8 +20,7 @@ public class DadosEscolares {
     private String serie;
     private String turno;
     @OneToMany
-    @JoinColumn(name = "id_Telefones")
-    @JsonIgnore
+    @JoinColumn(name = "telefones_id")
     private List<Telefone> telefones;
 
 }

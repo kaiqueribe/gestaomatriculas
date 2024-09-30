@@ -17,16 +17,8 @@ public class Responsavel {
     private String rg;
     private String cpf;
     private String email;
-    @OneToOne
-    @JoinColumn(name = "id_Endereco")
-    @JsonIgnore
-    private Endereco endereco;
-    @OneToMany
-    @JoinColumn(name = "id_Telefones")
-    @JsonIgnore
-    private List<Telefone> telefones;
     @ManyToOne
-    @JoinColumn(name = "id_Atendido")
+    @JoinColumn(name = "atendido_id")
     @JsonIgnore
     private Atendido atendido;
 }

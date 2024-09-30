@@ -1,6 +1,7 @@
 package com.imsjt.gestaomatriculas.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.imsjt.gestaomatriculas.enums.StatusMatricula;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,11 +17,12 @@ public class Matricula {
 
     private LocalDate dataMatricula;
     private LocalDate dataFimMatricula;
-    private boolean situacao;
+
+    @Enumerated(EnumType.STRING)
+    private StatusMatricula statusMatricula;
 
     @OneToOne
-    @JoinColumn(name = "id_Atendido")
-    @JsonIgnore
+    @JoinColumn(name = "atendido_id")
     private Atendido atendido;
 
     //TODO Matricula realizada por funcionario tal

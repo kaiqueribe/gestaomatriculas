@@ -1,9 +1,12 @@
 package com.imsjt.gestaomatriculas.service;
 
+import com.imsjt.gestaomatriculas.dto.AtendidoDTO;
 import com.imsjt.gestaomatriculas.entity.Atendido;
+import com.imsjt.gestaomatriculas.exceptions.InvalidRequestException;
 import com.imsjt.gestaomatriculas.exceptions.NotFoundException;
+import com.imsjt.gestaomatriculas.mapper.AtendidoMapper;
 import com.imsjt.gestaomatriculas.repository.AtendidoRepository;
-import com.sun.jdi.request.InvalidRequestStateException;
+
 import lombok.AllArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -21,30 +24,33 @@ public class AtendidoService {
     //TODO Tratar Exceptions
 
     private AtendidoRepository atendidoRepository;
+    private final AtendidoMapper atendidoMapper;
 
-    public Atendido cadastrarAtendido(Atendido atendido) {
-        ;
+    public AtendidoDTO cadastrarAtendido(AtendidoDTO atendidoDTO) {
+        Atendido atendido = atendidoMapper.toEntity(atendidoDTO);
         atendidoRepository.findByCpf(atendido.getCpf()).ifPresent(atendidoCpf -> {
-            throw new InvalidRequestStateException("CPF já Cadastrado!" + atendido.getCpf());
+            throw new InvalidRequestException("CPF já Cadastrado! " + atendido.getCpf());
         });
+
+
         Atendido novoAtendido = atendidoRepository.save(atendido);
-        return atendido;
+        return atendidoMapper.toDTO(atendido);
 
     }
 
-    public List<Atendido> listarTodosAtendidos() {
+    public List<AtendidoDTO> listarTodosAtendidos() {
         List<Atendido> atendidos = atendidoRepository.findAll();
-        return atendidos.stream().toList();
+        return atendidos.stream().map(atendidoMapper::toDTO).toList();
     }
 
-    public Atendido buscarAtendidoPorId(Long id) {
-        Atendido atendido = atendidoRepository.findById(id).orElseThrow(() -> new NotFoundException("Atendido com id: "+id+" não encontrado!"));
-        return atendido;
+    public AtendidoDTO buscarAtendidoPorId(Long id) {
+        Atendido atendido = atendidoRepository.findById(id).orElseThrow(() -> new NotFoundException("Atendido com id: " + id + " não encontrado!"));
+        return atendidoMapper.toDTO(atendido);
     }
 
-    //TODO: Implementar o método de atualizar
-    public Atendido atualizarAtendido(Long id, Atendido atendido) {
-        Atendido atendidoAtualizado = atendidoRepository.findById(id).orElseThrow(() -> new NotFoundException("Atendido com id: "+id+" não encontrado!"));
+    public AtendidoDTO atualizarAtendido(Long id, AtendidoDTO atendidoDTO) {
+        Atendido atendido = atendidoMapper.toEntity(atendidoDTO);
+        Atendido atendidoAtualizado = atendidoRepository.findById(id).orElseThrow(() -> new NotFoundException("Atendido com id: " + id + " não encontrado!"));
         atendidoAtualizado.setNomeCompleto(atendido.getNomeCompleto());
         atendidoAtualizado.setRg(atendido.getRg());
         atendidoAtualizado.setCpf(atendido.getCpf());
@@ -52,11 +58,12 @@ public class AtendidoService {
         atendidoAtualizado.setMunicipioNascimento(atendido.getMunicipioNascimento());
         atendidoAtualizado.setIdade(atendido.getIdade());
         atendidoAtualizado.setSexo(atendido.getSexo());
-        return atendidoRepository.save(atendidoAtualizado);
+        atendidoRepository.save(atendidoAtualizado);
+        return atendidoMapper.toDTO(atendidoAtualizado);
     }
 
     public void deletarAtendido(Long id) {
-        Atendido atendido = atendidoRepository.findById(id).orElseThrow(() -> new NotFoundException("Atendido com id: "+id+" não encontrado!"));
+        Atendido atendido = atendidoRepository.findById(id).orElseThrow(() -> new NotFoundException("Atendido com id: " + id + " não encontrado!"));
         atendidoRepository.delete(atendido);
 
     }
