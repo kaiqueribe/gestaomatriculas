@@ -1,15 +1,15 @@
 package com.imsjt.gestaomatriculas.dto;
 
-import jakarta.validation.constraints.NotBlank;
 
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Pattern;
+import com.imsjt.gestaomatriculas.enums.StatusMatricula;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.br.CPF;
 
-import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,31 +17,19 @@ import java.time.LocalDate;
 public class MatriculaDTO {
 
 
-    @NotBlank
-    private String numeroMatricula;
-    @NotBlank(message = "O Campo nome é Obrigatório")
-    private String nomeCompleto;
+    private AtendidoDTO atendidoDTO;
 
-    @NotBlank
-    @Pattern(regexp = "\\d{2}\\.\\d{3}\\.\\d{3}-[0-9X]",message = "Numero de RG Inválido")
-    private String rg;
+    private List<TelefoneDTO> telefoneDTOList;
 
-    @NotBlank
-    @CPF
-    @Pattern(regexp = "\\d{3}\\.\\d{3}\\.\\d{3}\\.\\d{2}-[0-9X]",message = "Numero de CPF Inválido")
-    private String cpf;
+    private List<ResponsavelDTO> responsavelDTOList;
 
-    @Past(message = "A Data informada deve ser uma data passada")
-    private LocalDate dataNascimento;
+    private EnderecoDTO enderecoDTO;
 
-    @NotBlank
-    private String municipioNascimento;
+    private DadosEscolaresDTO dadosEscolaresDTO;
 
-    @NotBlank
-    private String idade;
+    private List<DadosSociaisDTO> dadosSociaisDTOList;
 
-    @NotBlank
-    private String Sexo;
-
+    @Enumerated(EnumType.STRING)
+    private StatusMatricula statusMatricula;
 
 }
