@@ -1,6 +1,9 @@
 package com.imsjt.gestaomatriculas.dto;
 
+import com.imsjt.gestaomatriculas.enums.Sexo;
 import com.imsjt.gestaomatriculas.validation.GreaterThanOneWord;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
@@ -17,6 +20,7 @@ import java.time.LocalDate;
 @Setter
 @RequiredArgsConstructor
 public class AtendidoDTO {
+
     @NotBlank
     private String numeroMatricula;
 
@@ -39,9 +43,8 @@ public class AtendidoDTO {
     @NotBlank
     private String municipioNascimento;
 
-    @NotBlank
-    private String idade;
 
-    @NotBlank
-    private String Sexo;
+
+    @Enumerated(EnumType.STRING)
+    private Sexo Sexo;
 }

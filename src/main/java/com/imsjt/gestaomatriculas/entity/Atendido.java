@@ -22,7 +22,8 @@ public class Atendido {
     private String cpf;
     private LocalDate dataNascimento;
     private String municipioNascimento;
-    private String idade;
+    //TODO definir idade atraves da subtração do getYearAtual
+    private Long idade ;
     private String Sexo;
 
     @OneToMany
