@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface DadosEscolaresRepository extends JpaRepository<DadosEscolares, Long> {
-//    Optional<DadosEscolares> findAllById(Long id);
+    Optional<DadosEscolares> findById(Long id);
 }
