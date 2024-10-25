@@ -13,15 +13,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-//TODO:criar DTOS e verificar metodo Post e Put com DTO implementado
+//TODO: Criar DTOS e verificar metodo Post e Put com DTO implementado
 //TODO: Criar Enum Sexo e Fazer idade ser calculada a partir da data de nascimento
 
 
 @Service
 @AllArgsConstructor
 public class AtendidoService {
-
-    //TODO Tratar Exceptions
 
     private AtendidoRepository atendidoRepository;
     private final AtendidoMapper atendidoMapper;
@@ -30,6 +28,9 @@ public class AtendidoService {
         Atendido atendido = atendidoMapper.toEntity(atendidoDTO);
         atendidoRepository.findByCpf(atendido.getCpf()).ifPresent(atendidoCpf -> {
             throw new InvalidRequestException("CPF já Cadastrado! " + atendido.getCpf());
+        });
+        atendidoRepository.findByNumeroMatricula(atendido.getNumeroMatricula()).ifPresent(atendidoMatricula -> {
+            throw new InvalidRequestException("Matricula de numero: " + atendido.getNumeroMatricula() + " já está Cadastrada.");
         });
 
 
