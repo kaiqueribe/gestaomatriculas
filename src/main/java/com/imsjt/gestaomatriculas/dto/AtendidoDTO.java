@@ -1,5 +1,6 @@
 package com.imsjt.gestaomatriculas.dto;
 
+import com.imsjt.gestaomatriculas.enums.Sexo;
 import com.imsjt.gestaomatriculas.validation.GreaterThanOneWord;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
@@ -10,8 +11,6 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDate;
-
-//TODO Verificar se atributos nullos vão ser inseridos através dos outros endpoints
 
 @Getter
 @Setter
@@ -25,7 +24,7 @@ public class AtendidoDTO {
     private String nomeCompleto;
 
     @NotBlank
-    @Pattern(regexp = "\\d{2}\\.\\d{3}\\.\\d{3}\\-\\d{1}-[0-9X]",message = "Numero de RG Inválido")
+    @Pattern(regexp = "\\d{2}\\.\\d{3}\\.\\d{3}\\-\\d{1}",message = "Numero de RG Inválido")
     private String rg;
 
     @NotBlank
@@ -42,6 +41,6 @@ public class AtendidoDTO {
     @NotBlank
     private String idade;
 
-    @NotBlank
-    private String Sexo;
+
+    private Sexo sexo;
 }
