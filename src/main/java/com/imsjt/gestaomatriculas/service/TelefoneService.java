@@ -28,6 +28,7 @@ public class TelefoneService {
 
 
     //TODO implementar logica que atrela telefone a Atendido
+    //TODO Inserir Verificação de deve existir um atendido ou escola antes de adicionar um novo telefone
 
     public TelefoneDTO cadastrarTelefone(TelefoneDTO telefoneDTO) {
         Telefone telefone = telefoneMapper.toEntity(telefoneDTO);
