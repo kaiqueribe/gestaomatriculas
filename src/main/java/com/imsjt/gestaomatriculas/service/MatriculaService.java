@@ -10,12 +10,14 @@ import com.imsjt.gestaomatriculas.entity.Responsavel;
 import com.imsjt.gestaomatriculas.exceptions.InvalidRequestException;
 import com.imsjt.gestaomatriculas.exceptions.NotFoundException;
 import com.imsjt.gestaomatriculas.mapper.AtendidoMapper;
+import com.imsjt.gestaomatriculas.mapper.EnderecoMapper;
 import com.imsjt.gestaomatriculas.mapper.MatriculaMapper;
 import com.imsjt.gestaomatriculas.repository.AtendidoRepository;
 import com.imsjt.gestaomatriculas.repository.MatriculaRepository;
 import com.imsjt.gestaomatriculas.repository.ResponsavelRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -28,10 +30,8 @@ public class MatriculaService {
 
     //TODO Unificar Logica de matricula de atendido nessa service matricula
 
-    private final AtendidoRepository atendidoRepository;
-    private ResponsavelRepository responsavelRepository;
     private MatriculaRepository matriculaRepository;
-
+    @Autowired
     private AtendidoService atendidoService;
     private TelefoneService telefoneService;
     private ResponsavelService responsavelService;
@@ -39,42 +39,31 @@ public class MatriculaService {
 
     private final MatriculaMapper matriculaMapper;
     private final AtendidoMapper atendidoMapper;
+    private final EnderecoMapper enderecoMapper;
 
 
     public MatriculaDTO realizarMatricula(MatriculaDTO matriculaDTO) {
         Matricula dadosMatriculado = matriculaMapper.toEntity(matriculaDTO);
 
-        //caso não encontre o cpf cadastra atendido definindo dia atual que esta sendo matriculado
+        log.info(" definindo data matricula ");
         dadosMatriculado.setDataMatricula(LocalDate.now());
 
-
-        //TODO o cpf esta retornando nulo ao bucar do dto de matricula para o dto de atendido
-        //TODO ao registrar deve ser gravada a data atual
-
-        //Definir Endereço do atendido
-//        Endereco
-
-
-        //Busca por CPF e caso encontre retorna atendido com cpf ja esta matriculado
-        String cpf = matriculaDTO.getAtendidoDTO().getCpf();
-        Optional<Atendido> atendidoOpt = atendidoRepository.findByCpf(cpf);
-
-        if (atendidoOpt.isPresent()) {
-            log.info("cpf buscado: " + cpf);
-            throw new InvalidRequestException("Já existe um Atendido matriculado com o CPF: " + cpf);
-        }
-        Atendido novoAtendido = atendidoMapper.toEntity(matriculaDTO.getAtendidoDTO());
-        atendidoRepository.save(novoAtendido);
+        AtendidoDTO novoAtendidoDTO = atendidoService.cadastrarAtendido(matriculaDTO.getAtendidoDTO());
+        Atendido novoAtendido = atendidoMapper.toEntity(novoAtendidoDTO);
         dadosMatriculado.setAtendido(novoAtendido);
-        log.info("Atendido com CPF: " + cpf + "Cadastrado com sucesso");
+        log.info(" Cadastrou novo atendido ");
+
+        EnderecoDTO enderecoDTO = enderecoService.cadastrarEndereco(matriculaDTO.getEnderecoDTO());
+        Endereco novoEndereco = enderecoMapper.toEntity(enderecoDTO);
+        dadosMatriculado.getAtendido().setEndereco(novoEndereco);
+        log.info(" Cadastrou novo Endereco ");
 
 
-        //verifica se foi definido pelo menos um telefone
+        //TODO verifica se foi definido pelo menos um telefone
 
-        matriculaRepository.save(dadosMatriculado);
 
-        atendidoMapper.toDTO(novoAtendido);
-        return matriculaMapper.toDTO(dadosMatriculado);
+        Matricula novaMatricula =  matriculaRepository.save(dadosMatriculado);
+        return matriculaMapper.toDTO(novaMatricula);
     }
 
 

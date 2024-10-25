@@ -7,6 +7,7 @@ import com.imsjt.gestaomatriculas.exceptions.NotFoundException;
 import com.imsjt.gestaomatriculas.mapper.AtendidoMapper;
 import com.imsjt.gestaomatriculas.repository.AtendidoRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ public class AtendidoService {
     private AtendidoRepository atendidoRepository;
     private final AtendidoMapper atendidoMapper;
 
+    @Transactional
     public AtendidoDTO cadastrarAtendido(AtendidoDTO atendidoDTO) {
         Atendido atendido = atendidoMapper.toEntity(atendidoDTO);
         atendidoRepository.findByCpf(atendido.getCpf()).ifPresent(atendidoCpf -> {
@@ -35,7 +37,7 @@ public class AtendidoService {
 
 
         Atendido novoAtendido = atendidoRepository.save(atendido);
-        return atendidoMapper.toDTO(atendido);
+        return atendidoMapper.toDTO(novoAtendido);
 
     }
 
