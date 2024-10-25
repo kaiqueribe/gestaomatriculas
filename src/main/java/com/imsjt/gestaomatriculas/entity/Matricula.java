@@ -25,5 +25,5 @@ public class Matricula {
     @JoinColumn(name = "atendido_id")
     private Atendido atendido;
 
-    //TODO Matricula realizada por funcionario tal
+    //TODO Matricula realizada por funcionario tal, isso sera decidido através da permissão do spring security
 }

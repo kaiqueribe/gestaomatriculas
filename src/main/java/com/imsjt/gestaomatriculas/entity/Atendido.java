@@ -27,25 +27,24 @@ public class Atendido {
 
     @OneToMany
     @JoinColumn (name = "responsavel_id")
-    @JsonIgnore
     private List<Responsavel> responsavelList;
+
     @OneToMany
     @JoinColumn(name = "telefones_id")
-    @JsonIgnore
-    private List <Telefone> telefones;
+    private List <Telefone> telefonesList;
+
     @OneToOne
     @JoinColumn(name = "endereco_id")
-    @JsonIgnore
     private Endereco endereco;
+
     @OneToOne
     @JoinColumn(name = "dadosEscolares_id")
     @JsonIgnore
     private DadosEscolares dadosEscolares;
+
     @OneToMany
     @JoinColumn(name = "dadosSociais_id")
     @JsonIgnore
     private List<DadosSociais> dadosSociais;
-
-
 
 }
