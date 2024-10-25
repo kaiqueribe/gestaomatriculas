@@ -1,89 +1,88 @@
 package com.imsjt.gestaomatriculas.service;
 
 import com.imsjt.gestaomatriculas.dto.AtendidoDTO;
+import com.imsjt.gestaomatriculas.dto.EnderecoDTO;
 import com.imsjt.gestaomatriculas.dto.MatriculaDTO;
 import com.imsjt.gestaomatriculas.entity.Atendido;
+import com.imsjt.gestaomatriculas.entity.Endereco;
 import com.imsjt.gestaomatriculas.entity.Matricula;
 import com.imsjt.gestaomatriculas.entity.Responsavel;
 import com.imsjt.gestaomatriculas.exceptions.InvalidRequestException;
 import com.imsjt.gestaomatriculas.exceptions.NotFoundException;
+import com.imsjt.gestaomatriculas.mapper.AtendidoMapper;
 import com.imsjt.gestaomatriculas.mapper.MatriculaMapper;
 import com.imsjt.gestaomatriculas.repository.AtendidoRepository;
 import com.imsjt.gestaomatriculas.repository.MatriculaRepository;
+import com.imsjt.gestaomatriculas.repository.ResponsavelRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class MatriculaService {
 
     //TODO Unificar Logica de matricula de atendido nessa service matricula
 
-    private AtendidoRepository atendidoRepository;
+    private final AtendidoRepository atendidoRepository;
+    private ResponsavelRepository responsavelRepository;
     private MatriculaRepository matriculaRepository;
+
+    private AtendidoService atendidoService;
+    private TelefoneService telefoneService;
+    private ResponsavelService responsavelService;
+    private EnderecoService enderecoService;
+
     private final MatriculaMapper matriculaMapper;
+    private final AtendidoMapper atendidoMapper;
 
-    public MatriculaDTO matricularAtendido(MatriculaDTO matriculaDTO) {
-//
-        Matricula matricula = matriculaMapper.toEntity(matriculaDTO);
-//        matriculaRepository.findByAtendidoCpf(matricula.getAtendido().getCpf()).ifPresent(atendidoCpf -> {
-//            throw new InvalidRequestException("Cpf Já Cadastrado" + matricula.getAtendido().getCpf());
-//        });
-        matricula.setDataMatricula(LocalDate.now());
-
-        Matricula novaMatricula = matriculaRepository.save(matricula);
-        return matriculaMapper.toDTO(novaMatricula);
-    }
 
     public MatriculaDTO realizarMatricula(MatriculaDTO matriculaDTO) {
-        Matricula matriculado = matriculaMapper.toEntity(matriculaDTO);
+        Matricula dadosMatriculado = matriculaMapper.toEntity(matriculaDTO);
 
-// Matricula matriculaAtualizada = matriculaRepository.findById(id).orElseThrow(() -> new NotFoundException("Matricula com id: " + id + " não encontrada!"));
-        //TODO buscar atendido pelo cpf, se existir=atendidojamatriculado,senao=matricular
+        //caso não encontre o cpf cadastra atendido definindo dia atual que esta sendo matriculado
+        dadosMatriculado.setDataMatricula(LocalDate.now());
+
+
         //TODO o cpf esta retornando nulo ao bucar do dto de matricula para o dto de atendido
-        Matricula matriculaAtualizada = matriculaRepository.findByAtendidoCpf(matriculado.getAtendido().getCpf())
-                .orElseThrow(() -> new InvalidRequestException("Já existe um Atendido matriculado com o CPF: " + matriculado.getAtendido().getCpf()));
-        matriculaAtualizada.getAtendido().setCpf(matriculado.getAtendido().getCpf());
-        matriculaAtualizada.setDataMatricula(LocalDate.now());
-        matriculaAtualizada.setStatusMatricula(matriculado.getStatusMatricula());
-        matriculaRepository.save(matriculaAtualizada);
-        return matriculaMapper.toDTO(matriculaAtualizada);
+        //TODO ao registrar deve ser gravada a data atual
+
+        //Definir Endereço do atendido
+//        Endereco
+
+
+        //Busca por CPF e caso encontre retorna atendido com cpf ja esta matriculado
+        String cpf = matriculaDTO.getAtendidoDTO().getCpf();
+        Optional<Atendido> atendidoOpt = atendidoRepository.findByCpf(cpf);
+
+        if (atendidoOpt.isPresent()) {
+            log.info("cpf buscado: " + cpf);
+            throw new InvalidRequestException("Já existe um Atendido matriculado com o CPF: " + cpf);
+        }
+        Atendido novoAtendido = atendidoMapper.toEntity(matriculaDTO.getAtendidoDTO());
+        atendidoRepository.save(novoAtendido);
+        dadosMatriculado.setAtendido(novoAtendido);
+        log.info("Atendido com CPF: " + cpf + "Cadastrado com sucesso");
+
+
+        //verifica se foi definido pelo menos um telefone
+
+        matriculaRepository.save(dadosMatriculado);
+
+        atendidoMapper.toDTO(novoAtendido);
+        return matriculaMapper.toDTO(dadosMatriculado);
     }
 
-//    public MatriculaDTO realizarMatricula(MatriculaDTO matriculaDTO) {
-//        Matricula matriculado = matriculaMapper.toEntity(matriculaDTO);
-//
-//// Matricula matriculaAtualizada = matriculaRepository.findById(id).orElseThrow(() -> new NotFoundException("Matricula com id: " + id + " não encontrada!"));
-//        Matricula matriculaAtualizada = matriculaRepository.findByAtendidoCpf(matriculado.getAtendido().getCpf())
-//                .orElseThrow(() -> new InvalidRequestException("Já existe um Atendido matriculado com o CPF: " + matriculado.getAtendido().getCpf()));
-//        matriculaAtualizada.setDataMatricula(LocalDate.now());
-//        matriculaAtualizada.setDataFimMatricula(matriculado.getDataFimMatricula());
-//        matriculaAtualizada.setStatusMatricula(matriculado.getStatusMatricula());
-//        matriculaRepository.save(matriculaAtualizada);
-//        return matriculaMapper.toDTO(matriculaAtualizada);
-//    }
-
-    public Matricula buscarPorId(Long id) {
-        Matricula matricula = matriculaRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Matricula com id: " + id + " não encontrada!"));
-        return matricula;
-    }
-
-    //tentar chamar service de responsavel
-    public void adicionarResponsavel(Long id) {
-
-    }
-
-    //tentar chamar service de telefone
-    public void adicionarTelefone(Long id) {
-
-    }
 
     //precisa ter uma logica que mude o status da matricula para inativo
-    public void calcelarMatricula(Long id) {
+    public MatriculaDTO calcelarMatricula(Long cpf, MatriculaDTO matriculaDTO) {
+        Matricula matriculado = matriculaMapper.toEntity(matriculaDTO);
 
+        return null;
     }
 
 
