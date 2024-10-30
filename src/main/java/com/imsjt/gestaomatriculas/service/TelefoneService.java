@@ -1,6 +1,7 @@
 package com.imsjt.gestaomatriculas.service;
 
 import com.imsjt.gestaomatriculas.dto.TelefoneDTO;
+import com.imsjt.gestaomatriculas.entity.Atendido;
 import com.imsjt.gestaomatriculas.entity.Telefone;
 
 import com.imsjt.gestaomatriculas.exceptions.InvalidRequestException;
@@ -38,10 +39,30 @@ public class TelefoneService {
                     throw new InvalidRequestException("Telefone Já Cadastrado! " + telefone.getNumeroTelefone());
                 });
 
+
         Telefone novoTelefone = telefoneRepository.save(telefone);
         return telefoneMapper.toDTO(novoTelefone);
 
     }
+
+
+    public TelefoneDTO cadastrarTelefoneAtendido(TelefoneDTO telefoneDTO, Atendido atendido) {
+        Telefone telefone = telefoneMapper.toEntity(telefoneDTO);
+
+        telefoneRepository.findByNumeroTelefone(telefone.getNumeroTelefone())
+                .ifPresent(numeroTelefone -> {
+                    throw new InvalidRequestException("Telefone Já Cadastrado! " + telefone.getNumeroTelefone());
+                });
+
+        telefone.setAtendido(atendido);
+        Telefone novoTelefone = telefoneRepository.save(telefone);
+        return telefoneMapper.toDTO(novoTelefone);
+
+    }
+
+
+
+
 
     public List<TelefoneDTO> listarTodosTelefones() {
         List<Telefone> telefones = telefoneRepository.findAll();

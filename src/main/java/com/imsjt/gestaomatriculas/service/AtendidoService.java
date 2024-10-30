@@ -25,7 +25,7 @@ public class AtendidoService {
     private AtendidoRepository atendidoRepository;
     private final AtendidoMapper atendidoMapper;
 
-    @Transactional
+
     public AtendidoDTO cadastrarAtendido(AtendidoDTO atendidoDTO) {
         Atendido atendido = atendidoMapper.toEntity(atendidoDTO);
         atendidoRepository.findByCpf(atendido.getCpf()).ifPresent(atendidoCpf -> {

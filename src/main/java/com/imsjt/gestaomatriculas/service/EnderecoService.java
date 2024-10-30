@@ -2,6 +2,7 @@ package com.imsjt.gestaomatriculas.service;
 
 
 import com.imsjt.gestaomatriculas.dto.EnderecoDTO;
+import com.imsjt.gestaomatriculas.entity.Atendido;
 import com.imsjt.gestaomatriculas.entity.Endereco;
 import com.imsjt.gestaomatriculas.exceptions.NotFoundException;
 import com.imsjt.gestaomatriculas.mapper.EnderecoMapper;
@@ -19,11 +20,12 @@ public class EnderecoService {
     private EnderecoRepository enderecoRepository;
     private final EnderecoMapper enderecoMapper;
 
-    public EnderecoDTO cadastrarEndereco(EnderecoDTO enderecoDTO) {
+    public EnderecoDTO cadastrarEndereco(EnderecoDTO enderecoDTO, Atendido atendido) {
 
         Endereco endereco = enderecoMapper.toEntity(enderecoDTO);
         Endereco novoEndereco = enderecoRepository.save(endereco);
 
+        endereco.setAtendido(atendido);
         return enderecoMapper.toDTO(novoEndereco);
     }
 

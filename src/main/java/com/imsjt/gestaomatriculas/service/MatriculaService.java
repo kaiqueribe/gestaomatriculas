@@ -23,63 +23,60 @@ import java.util.Optional;
 public class MatriculaService {
 
     //TODO Unificar Logica de matricula de atendido nessa service matricula
-    @Autowired
+
     private MatriculaRepository matriculaRepository;
-    @Autowired
+
     private AtendidoService atendidoService;
-    @Autowired
+
     private TelefoneService telefoneService;
-    @Autowired
+
     private ResponsavelService responsavelService;
-    @Autowired
+
     private EnderecoService enderecoService;
 
     private final MatriculaMapper matriculaMapper;
     private final AtendidoMapper atendidoMapper;
     private final EnderecoMapper enderecoMapper;
-    private final TelefoneMapper telefoneMapper;
-    private final ResponsavelMapper responsavelMapper;
 
 
     public MatriculaDTO realizarMatricula(MatriculaDTO matriculaDTO) {
-        Matricula dadosMatriculado = matriculaMapper.toEntity(matriculaDTO);
+        Matricula matricula = matriculaMapper.toEntity(matriculaDTO);
 
         log.info(" definindo data matricula ");
-        dadosMatriculado.setDataMatricula(LocalDate.now());
+        matricula.setDataMatricula(LocalDate.now());
+        Matricula novaMatricula = matriculaRepository.save(matricula);
 
         AtendidoDTO novoAtendidoDTO = atendidoService.cadastrarAtendido(matriculaDTO.getAtendidoDTO());
         Atendido novoAtendido = atendidoMapper.toEntity(novoAtendidoDTO);
-        dadosMatriculado.setAtendido(novoAtendido);
+        matricula.setAtendido(novoAtendido);
         log.info(" Cadastrou novo atendido ");
 
-        EnderecoDTO novoEnderecoDTO = enderecoService.cadastrarEndereco(matriculaDTO.getEnderecoDTO());
+        EnderecoDTO novoEnderecoDTO = enderecoService.cadastrarEndereco(matriculaDTO.getEnderecoDTO(),novoAtendido);
         Endereco novoEndereco = enderecoMapper.toEntity(novoEnderecoDTO);
-        dadosMatriculado.getAtendido().setEndereco(novoEndereco);
+        novoAtendido.setEndereco(novoEndereco);
         log.info(" Cadastrou novo Endereco ");
 
-        TelefoneDTO telefoneDTO = telefoneService.cadastrarTelefone(matriculaDTO.getTelefoneDTOList().getFirst());
-        Telefone novoTelefone = telefoneMapper.toEntity(telefoneDTO);
-        List<Telefone> telefoneList = new ArrayList<>();
-        telefoneList.add(novoTelefone);
-        dadosMatriculado.getAtendido().setTelefonesList(telefoneList);
 
-        ResponsavelDTO responsavelDTO = responsavelService.cadastrarResponsavel(matriculaDTO.getResponsavelDTOList().getFirst());
-        Responsavel novoResponsavel = responsavelMapper.toEntity(responsavelDTO);
-        List<Responsavel> responsavelList = new ArrayList<>();
-        responsavelList.add(novoResponsavel);
-        dadosMatriculado.getAtendido().setResponsavelList(responsavelList);
+        for (TelefoneDTO telefoneDTO : matriculaDTO.getTelefoneDTOList()) {
+            telefoneService.cadastrarTelefoneAtendido(telefoneDTO, novoAtendido);
+        }
 
-        Matricula novaMatricula = matriculaRepository.save(dadosMatriculado);
+
+        for (ResponsavelDTO responsavelDTO : matriculaDTO.getResponsavelDTOList()) {
+            responsavelService.cadastrarResponsavel(responsavelDTO,novoAtendido);
+        }
+
+
         return matriculaMapper.toDTO(novaMatricula);
     }
 
 
     //precisa ter uma logica que mude o status da matricula para inativo
-    public MatriculaDTO calcelarMatricula(Long cpf, MatriculaDTO matriculaDTO) {
-        Matricula matriculado = matriculaMapper.toEntity(matriculaDTO);
-
-        return null;
-    }
+//    public MatriculaDTO calcelarMatricula(Long cpf, MatriculaDTO matriculaDTO) {
+//        Matricula matriculado = matriculaMapper.toEntity(matriculaDTO);
+//
+//        return null;
+//    }
 
 
 }
