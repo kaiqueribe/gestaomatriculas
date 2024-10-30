@@ -21,12 +21,13 @@ public class EnderecoController {
 
     private EnderecoService enderecoService;
 
+    //TODO criar endpoint para cadastro de Endpoint individual fora de matricula ?
 
-    @PostMapping
-    public ResponseEntity<EnderecoDTO> cadastrar(@Valid @RequestBody EnderecoDTO enderecoDTO) {
-        EnderecoDTO novoEndereco = enderecoService.cadastrarEndereco(enderecoDTO);
-        return new ResponseEntity<>(novoEndereco, HttpStatus.CREATED);
-    }
+//    @PostMapping
+//    public ResponseEntity<EnderecoDTO> cadastrar(@Valid @RequestBody EnderecoDTO enderecoDTO) {
+//        EnderecoDTO novoEndereco = enderecoService.cadastrarEndereco(enderecoDTO);
+//        return new ResponseEntity<>(novoEndereco, HttpStatus.CREATED);
+//    }
 
     @GetMapping
     public ResponseEntity<List<EnderecoDTO>> buscarTodos() {

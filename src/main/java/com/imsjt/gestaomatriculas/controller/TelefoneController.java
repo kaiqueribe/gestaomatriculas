@@ -23,14 +23,15 @@ public class TelefoneController {
 
     private final TelefoneService telefoneService;
 
+//TODO criar endpoint para cadastro de telefon escolar ou atendido individual fora de matricula ?
 
-    @PostMapping
-    public ResponseEntity<TelefoneDTO> cadastrar(@Valid @RequestBody TelefoneDTO telefoneDTO) {
-
-        TelefoneDTO telefoneCadastrado = telefoneService.cadastrarTelefone(telefoneDTO);
-
-        return new ResponseEntity<>(telefoneCadastrado, HttpStatus.CREATED);
-    }
+//    @PostMapping
+//    public ResponseEntity<TelefoneDTO> cadastrar(@Valid @RequestBody TelefoneDTO telefoneDTO) {
+//
+//        TelefoneDTO telefoneCadastrado = telefoneService.cadastrarTelefone(telefoneDTO);
+//
+//        return new ResponseEntity<>(telefoneCadastrado, HttpStatus.CREATED);
+//    }
 
     @GetMapping
     public ResponseEntity<List<TelefoneDTO>> buscarTodos() {

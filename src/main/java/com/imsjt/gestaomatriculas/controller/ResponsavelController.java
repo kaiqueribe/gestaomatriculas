@@ -19,11 +19,13 @@ public class ResponsavelController {
 
     private ResponsavelService responsavelService;
 
-    @PostMapping
-    public ResponseEntity<ResponsavelDTO> cadastrarResponsavel(@Valid @RequestBody ResponsavelDTO responsavelDTO) {
-        ResponsavelDTO novoResponsavel = responsavelService.cadastrarResponsavel(responsavelDTO);
-        return new ResponseEntity<>(novoResponsavel, HttpStatus.CREATED);
-    }
+    //TODO criar endpoint para cadastro de resposavel individual fora de matricula ?
+
+//    @PostMapping
+//    public ResponseEntity<ResponsavelDTO> cadastrarResponsavel(@Valid @RequestBody ResponsavelDTO responsavelDTO) {
+//        ResponsavelDTO novoResponsavel = responsavelService.cadastrarResponsavel(responsavelDTO);
+//        return new ResponseEntity<>(novoResponsavel, HttpStatus.CREATED);
+//    }
 
     @GetMapping
     public ResponseEntity<List<ResponsavelDTO>> listarTodosResponsaveis() {
