@@ -17,8 +17,7 @@ public class Responsavel {
     private String rg;
     private String cpf;
     private String email;
-    @ManyToOne
-    @JoinColumn(name = "atendido_id")
-    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "atendido_id")
     private Atendido atendido;
 }

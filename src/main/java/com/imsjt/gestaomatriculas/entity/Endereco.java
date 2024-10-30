@@ -23,7 +23,7 @@ public class Endereco {
     private String estado;
     private String cep;
 
-    @ManyToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "atendido_id")
     private Atendido atendido;
 

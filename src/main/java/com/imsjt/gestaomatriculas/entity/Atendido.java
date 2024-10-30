@@ -25,26 +25,26 @@ public class Atendido {
     private String idade;
     private String Sexo;
 
-    @OneToMany
-    @JoinColumn (name = "responsavel_id")
+    @OneToMany(mappedBy = "atendido", cascade = CascadeType.ALL)
+//    @JoinColumn(name = "responsavel_id")
     private List<Responsavel> responsavelList;
 
-    @OneToMany
-    @JoinColumn(name = "telefones_id")
-    private List <Telefone> telefonesList;
+    @OneToMany(mappedBy = "atendido", cascade = CascadeType.ALL)
+//    @JoinColumn(name = "telefones_id")
+    private List<Telefone> telefonesList;
 
-    @OneToOne
-    @JoinColumn(name = "endereco_id")
+    @OneToOne(mappedBy = "atendido", cascade = CascadeType.ALL)
+//    @JoinColumn(name = "endereco_id")
     private Endereco endereco;
 
-    @OneToOne
-    @JoinColumn(name = "dadosEscolares_id")
-    @JsonIgnore
-    private DadosEscolares dadosEscolares;
-
-    @OneToMany
-    @JoinColumn(name = "dadosSociais_id")
-    @JsonIgnore
-    private List<DadosSociais> dadosSociais;
-
+//    @OneToOne
+//    @JoinColumn(name = "dadosEscolares_id")
+//    @JsonIgnore
+//    private DadosEscolares dadosEscolares;
+//
+//    @OneToMany
+//    @JoinColumn(name = "dadosSociais_id")
+//    @JsonIgnore
+//    private List<DadosSociais> dadosSociais;
+//
 }
