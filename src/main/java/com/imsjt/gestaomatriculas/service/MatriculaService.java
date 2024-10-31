@@ -3,19 +3,18 @@ package com.imsjt.gestaomatriculas.service;
 import com.imsjt.gestaomatriculas.dto.*;
 import com.imsjt.gestaomatriculas.entity.*;
 
+import com.imsjt.gestaomatriculas.exceptions.InvalidRequestException;
 import com.imsjt.gestaomatriculas.mapper.*;
 
 import com.imsjt.gestaomatriculas.repository.MatriculaRepository;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+
 
 @Slf4j
 @Service
@@ -27,12 +26,9 @@ public class MatriculaService {
     private MatriculaRepository matriculaRepository;
 
     private AtendidoService atendidoService;
-
-    private TelefoneService telefoneService;
-
-    private ResponsavelService responsavelService;
-
     private EnderecoService enderecoService;
+    private TelefoneService telefoneService;
+    private ResponsavelService responsavelService;
 
     private final MatriculaMapper matriculaMapper;
     private final AtendidoMapper atendidoMapper;
@@ -40,34 +36,45 @@ public class MatriculaService {
 
 
     public MatriculaDTO realizarMatricula(MatriculaDTO matriculaDTO) {
-        Matricula matricula = matriculaMapper.toEntity(matriculaDTO);
 
-        log.info(" definindo data matricula ");
-        matricula.setDataMatricula(LocalDate.now());
-        Matricula novaMatricula = matriculaRepository.save(matricula);
-
-        AtendidoDTO novoAtendidoDTO = atendidoService.cadastrarAtendido(matriculaDTO.getAtendidoDTO());
-        Atendido novoAtendido = atendidoMapper.toEntity(novoAtendidoDTO);
-        matricula.setAtendido(novoAtendido);
-        log.info(" Cadastrou novo atendido ");
-
-        EnderecoDTO novoEnderecoDTO = enderecoService.cadastrarEndereco(matriculaDTO.getEnderecoDTO(),novoAtendido);
-        Endereco novoEndereco = enderecoMapper.toEntity(novoEnderecoDTO);
-        novoAtendido.setEndereco(novoEndereco);
-        log.info(" Cadastrou novo Endereco ");
+        Matricula novaMatricula = matriculaMapper.toEntity(matriculaDTO);
 
 
-        for (TelefoneDTO telefoneDTO : matriculaDTO.getTelefoneDTOList()) {
-            telefoneService.cadastrarTelefoneAtendido(telefoneDTO, novoAtendido);
+        try {
+            AtendidoDTO novoAtendidoDTO = atendidoService.cadastrarAtendido(matriculaDTO.getAtendidoDTO());
+            Atendido novoAtendido = atendidoMapper.toEntity(novoAtendidoDTO);
+            log.info(" Cadastrou novo atendido ");
+            novaMatricula.setDataMatricula(LocalDate.now());
+            log.info(" Definiu data matricula " + novaMatricula.getDataMatricula());
+            novaMatricula.setAtendido(novoAtendido);
+            log.info("Matricula recebe dados ");
+            Matricula matricula = matriculaRepository.save(novaMatricula);
+
+            Endereco novoEndereco = enderecoMapper.toEntity(matriculaDTO.getEnderecoDTO());
+            enderecoService.cadastrarEndereco(matriculaDTO.getEnderecoDTO(), novoAtendido);
+            novoAtendido.setEndereco(novoEndereco);
+            log.info(" Cadastrou novo Endereco ");
+
+            for (TelefoneDTO telefoneDTO : matriculaDTO.getTelefoneDTOList()) {
+                telefoneService.cadastrarTelefoneAtendido(telefoneDTO, novoAtendido);
+                log.info("Cadastrou novo telefone" + telefoneDTO.getNumeroTelefone());
+            }
+
+            for (ResponsavelDTO responsavelDTO : matriculaDTO.getResponsavelDTOList()) {
+                responsavelService.cadastrarResponsavel(responsavelDTO, novoAtendido);
+                log.info("Cadastrou novo Responsavel" + responsavelDTO.getCpf());
+            }
+
+            matriculaRepository.save(novaMatricula);
+
+            return matriculaMapper.toDTO(matricula);
+        } catch (InvalidRequestException e) {
+
+            log.error("Erro ao realizar matricula");
+
+            throw e;
         }
 
-
-        for (ResponsavelDTO responsavelDTO : matriculaDTO.getResponsavelDTOList()) {
-            responsavelService.cadastrarResponsavel(responsavelDTO,novoAtendido);
-        }
-
-
-        return matriculaMapper.toDTO(novaMatricula);
     }
 
 
