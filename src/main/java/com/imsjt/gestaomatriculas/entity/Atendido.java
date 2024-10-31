@@ -25,15 +25,15 @@ public class Atendido {
     private String idade;
     private String Sexo;
 
-    @OneToMany(mappedBy = "atendido", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "atendido", cascade = CascadeType.PERSIST)
 //    @JoinColumn(name = "responsavel_id")
     private List<Responsavel> responsavelList;
 
-    @OneToMany(mappedBy = "atendido", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "atendido", cascade = CascadeType.PERSIST)
 //    @JoinColumn(name = "telefones_id")
     private List<Telefone> telefonesList;
 
-    @OneToOne(mappedBy = "atendido", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "atendido", cascade = CascadeType.PERSIST)
 //    @JoinColumn(name = "endereco_id")
     private Endereco endereco;
 

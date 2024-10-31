@@ -21,7 +21,7 @@ public class Telefone {
     @Enumerated(EnumType.STRING)
     private TipoTelefone tipoTelefone;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "atendido_id")
     private Atendido atendido;
 

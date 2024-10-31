@@ -23,7 +23,7 @@ public class Endereco {
     private String estado;
     private String cep;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "atendido_id")
     private Atendido atendido;
 
