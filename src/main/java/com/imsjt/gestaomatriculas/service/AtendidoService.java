@@ -35,11 +35,24 @@ public class AtendidoService {
             throw new InvalidRequestException("Matricula de numero: " + atendido.getNumeroMatricula() + " já está Cadastrada.");
         });
 
-
         Atendido novoAtendido = atendidoRepository.save(atendido);
         return atendidoMapper.toDTO(novoAtendido);
+    }
+
+
+    public Atendido matricularAtendido(AtendidoDTO atendidoDTO) {
+        Atendido atendido = atendidoMapper.toEntity(atendidoDTO);
+        atendidoRepository.findByCpf(atendido.getCpf()).ifPresent(atendidoCpf -> {
+            throw new InvalidRequestException("CPF já Cadastrado! " + atendido.getCpf());
+        });
+        atendidoRepository.findByNumeroMatricula(atendido.getNumeroMatricula()).ifPresent(atendidoMatricula -> {
+            throw new InvalidRequestException("Matricula de numero: " + atendido.getNumeroMatricula() + " já está Cadastrada.");
+        });
+
+        return atendidoRepository.save(atendido);
 
     }
+
 
     public List<AtendidoDTO> listarTodosAtendidos() {
         List<Atendido> atendidos = atendidoRepository.findAll();
