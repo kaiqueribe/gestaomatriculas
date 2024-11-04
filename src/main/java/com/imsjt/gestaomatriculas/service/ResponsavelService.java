@@ -7,7 +7,9 @@ import com.imsjt.gestaomatriculas.exceptions.InvalidRequestException;
 import com.imsjt.gestaomatriculas.exceptions.NotFoundException;
 import com.imsjt.gestaomatriculas.mapper.ResponsavelMapper;
 import com.imsjt.gestaomatriculas.repository.ResponsavelRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.boot.autoconfigure.quartz.QuartzTransactionManager;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,10 +21,11 @@ public class ResponsavelService {
     private ResponsavelRepository responsavelRepository;
     private final ResponsavelMapper responsavelMapper;
 
+    @Transactional
     public ResponsavelDTO cadastrarResponsavel(ResponsavelDTO responsavelDTO, Atendido atendido) {
         Responsavel responsavel = responsavelMapper.toEntity(responsavelDTO);
         responsavelRepository.findByCpf(responsavel.getCpf()).ifPresent(responsavelCpf -> {
-            throw new InvalidRequestException("CPF já Cadastrado!" + responsavel.getCpf());
+            throw new RuntimeException("CPF já Cadastrado!" + responsavel.getCpf());
         });
         responsavel.setAtendido(atendido);
         Responsavel novoResponsavel = responsavelRepository.save(responsavel);

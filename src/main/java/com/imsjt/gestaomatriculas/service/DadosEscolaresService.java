@@ -3,6 +3,7 @@ package com.imsjt.gestaomatriculas.service;
 import com.imsjt.gestaomatriculas.entity.DadosEscolares;
 import com.imsjt.gestaomatriculas.exceptions.NotFoundException;
 import com.imsjt.gestaomatriculas.repository.DadosEscolaresRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ public class DadosEscolaresService {
 
     private DadosEscolaresRepository dadosEscolaresRepository;
 
+    @Transactional
     public DadosEscolares cadastrarDadosEscolares(DadosEscolares dadosEscolares) {
         DadosEscolares novosDadosEscolares = dadosEscolaresRepository.save(dadosEscolares);
         return novosDadosEscolares;

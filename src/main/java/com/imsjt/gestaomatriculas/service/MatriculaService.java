@@ -2,6 +2,7 @@ package com.imsjt.gestaomatriculas.service;
 
 import com.imsjt.gestaomatriculas.dto.*;
 import com.imsjt.gestaomatriculas.entity.*;
+import com.imsjt.gestaomatriculas.exceptions.InvalidRequestException;
 import com.imsjt.gestaomatriculas.mapper.*;
 import com.imsjt.gestaomatriculas.repository.MatriculaRepository;
 import jakarta.transaction.Transactional;
@@ -25,14 +26,12 @@ public class MatriculaService {
     private ResponsavelService responsavelService;
 
     private final MatriculaMapper matriculaMapper;
-    private final AtendidoMapper atendidoMapper;
+
 
     @Transactional
     public MatriculaDTO realizarMatricula(MatriculaDTO matriculaDTO) {
 
-
         Atendido novoAtendido = atendidoService.matricularAtendido(matriculaDTO.getAtendidoDTO());
-//
 
         log.info(" Cadastrou novo atendido ");
 

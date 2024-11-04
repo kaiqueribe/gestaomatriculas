@@ -10,6 +10,7 @@ import com.imsjt.gestaomatriculas.mapper.TelefoneMapper;
 import com.imsjt.gestaomatriculas.repository.TelefoneRepository;
 
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -42,13 +43,13 @@ public class TelefoneService {
 
     }
 
-
+    @Transactional
     public TelefoneDTO cadastrarTelefoneAtendido(TelefoneDTO telefoneDTO, Atendido atendido) {
         Telefone telefone = telefoneMapper.toEntity(telefoneDTO);
 
         telefoneRepository.findByNumeroTelefone(telefone.getNumeroTelefone())
                 .ifPresent(numeroTelefone -> {
-                    throw new InvalidRequestException("Telefone Já Cadastrado! " + telefone.getNumeroTelefone());
+                    throw new RuntimeException("Telefone Já Cadastrado! " + telefone.getNumeroTelefone());
                 });
 
         telefone.setAtendido(atendido);

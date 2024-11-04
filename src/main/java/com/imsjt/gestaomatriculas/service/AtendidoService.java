@@ -25,7 +25,7 @@ public class AtendidoService {
     private AtendidoRepository atendidoRepository;
     private final AtendidoMapper atendidoMapper;
 
-
+    @Transactional
     public AtendidoDTO cadastrarAtendido(AtendidoDTO atendidoDTO) {
         Atendido atendido = atendidoMapper.toEntity(atendidoDTO);
         atendidoRepository.findByCpf(atendido.getCpf()).ifPresent(atendidoCpf -> {
@@ -39,14 +39,14 @@ public class AtendidoService {
         return atendidoMapper.toDTO(novoAtendido);
     }
 
-
+    @Transactional
     public Atendido matricularAtendido(AtendidoDTO atendidoDTO) {
         Atendido atendido = atendidoMapper.toEntity(atendidoDTO);
         atendidoRepository.findByCpf(atendido.getCpf()).ifPresent(atendidoCpf -> {
-            throw new InvalidRequestException("CPF já Cadastrado! " + atendido.getCpf());
+            throw new RuntimeException("CPF já Cadastrado! " + atendido.getCpf());
         });
         atendidoRepository.findByNumeroMatricula(atendido.getNumeroMatricula()).ifPresent(atendidoMatricula -> {
-            throw new InvalidRequestException("Matricula de numero: " + atendido.getNumeroMatricula() + " já está Cadastrada.");
+            throw new RuntimeException("Matricula de numero: " + atendido.getNumeroMatricula() + " já está Cadastrada.");
         });
 
         return atendidoRepository.save(atendido);

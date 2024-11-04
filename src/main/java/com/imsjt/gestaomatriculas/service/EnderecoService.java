@@ -7,6 +7,7 @@ import com.imsjt.gestaomatriculas.entity.Endereco;
 import com.imsjt.gestaomatriculas.exceptions.NotFoundException;
 import com.imsjt.gestaomatriculas.mapper.EnderecoMapper;
 import com.imsjt.gestaomatriculas.repository.EnderecoRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ public class EnderecoService {
     private EnderecoRepository enderecoRepository;
     private final EnderecoMapper enderecoMapper;
 
+    @Transactional
     public EnderecoDTO cadastrarEndereco(EnderecoDTO enderecoDTO, Atendido atendido) {
 
         Endereco endereco = enderecoMapper.toEntity(enderecoDTO);
