@@ -7,7 +7,6 @@ import com.imsjt.gestaomatriculas.entity.Telefone;
 import com.imsjt.gestaomatriculas.exceptions.InvalidRequestException;
 import com.imsjt.gestaomatriculas.exceptions.NotFoundException;
 import com.imsjt.gestaomatriculas.mapper.TelefoneMapper;
-import com.imsjt.gestaomatriculas.repository.AtendidoRepository;
 import com.imsjt.gestaomatriculas.repository.TelefoneRepository;
 
 
@@ -22,8 +21,6 @@ import java.util.List;
 @AllArgsConstructor
 public class TelefoneService {
 
-//atendidorepository vai ser utilizado na implementação do atrelamento telefone ao atendido
-    private AtendidoRepository atendidoRepository;
     private TelefoneRepository telefoneRepository;
     private final TelefoneMapper telefoneMapper;
 
@@ -59,10 +56,6 @@ public class TelefoneService {
         return telefoneMapper.toDTO(novoTelefone);
 
     }
-
-
-
-
 
     public List<TelefoneDTO> listarTodosTelefones() {
         List<Telefone> telefones = telefoneRepository.findAll();
