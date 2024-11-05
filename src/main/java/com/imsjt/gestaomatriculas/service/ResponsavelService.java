@@ -3,6 +3,7 @@ package com.imsjt.gestaomatriculas.service;
 import com.imsjt.gestaomatriculas.dto.ResponsavelDTO;
 import com.imsjt.gestaomatriculas.entity.Atendido;
 import com.imsjt.gestaomatriculas.entity.Responsavel;
+import com.imsjt.gestaomatriculas.exceptions.DataConflictException;
 import com.imsjt.gestaomatriculas.exceptions.InvalidRequestException;
 import com.imsjt.gestaomatriculas.exceptions.NotFoundException;
 import com.imsjt.gestaomatriculas.mapper.ResponsavelMapper;
@@ -25,7 +26,7 @@ public class ResponsavelService {
     public ResponsavelDTO cadastrarResponsavel(ResponsavelDTO responsavelDTO, Atendido atendido) {
         Responsavel responsavel = responsavelMapper.toEntity(responsavelDTO);
         responsavelRepository.findByCpf(responsavel.getCpf()).ifPresent(responsavelCpf -> {
-            throw new RuntimeException("CPF já Cadastrado!" + responsavel.getCpf());
+            throw new DataConflictException("CPF já Cadastrado!" + responsavel.getCpf());
         });
         responsavel.setAtendido(atendido);
         Responsavel novoResponsavel = responsavelRepository.save(responsavel);

@@ -2,6 +2,7 @@ package com.imsjt.gestaomatriculas.service;
 
 import com.imsjt.gestaomatriculas.dto.AtendidoDTO;
 import com.imsjt.gestaomatriculas.entity.Atendido;
+import com.imsjt.gestaomatriculas.exceptions.DataConflictException;
 import com.imsjt.gestaomatriculas.exceptions.InvalidRequestException;
 import com.imsjt.gestaomatriculas.exceptions.NotFoundException;
 import com.imsjt.gestaomatriculas.mapper.AtendidoMapper;
@@ -43,10 +44,10 @@ public class AtendidoService {
     public Atendido matricularAtendido(AtendidoDTO atendidoDTO) {
         Atendido atendido = atendidoMapper.toEntity(atendidoDTO);
         atendidoRepository.findByCpf(atendido.getCpf()).ifPresent(atendidoCpf -> {
-            throw new RuntimeException("CPF já Cadastrado! " + atendido.getCpf());
+            throw new DataConflictException("CPF já Cadastrado! " + atendido.getCpf());
         });
         atendidoRepository.findByNumeroMatricula(atendido.getNumeroMatricula()).ifPresent(atendidoMatricula -> {
-            throw new RuntimeException("Matricula de numero: " + atendido.getNumeroMatricula() + " já está Cadastrada.");
+            throw new DataConflictException("Matricula de numero: " + atendido.getNumeroMatricula() + " já está Cadastrada.");
         });
 
         return atendidoRepository.save(atendido);

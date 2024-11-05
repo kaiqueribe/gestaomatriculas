@@ -2,6 +2,7 @@ package com.imsjt.gestaomatriculas.service;
 
 import com.imsjt.gestaomatriculas.dto.*;
 import com.imsjt.gestaomatriculas.entity.*;
+import com.imsjt.gestaomatriculas.exceptions.DataConflictException;
 import com.imsjt.gestaomatriculas.exceptions.InvalidRequestException;
 import com.imsjt.gestaomatriculas.mapper.*;
 import com.imsjt.gestaomatriculas.repository.MatriculaRepository;
@@ -31,37 +32,39 @@ public class MatriculaService {
     @Transactional
     public MatriculaDTO realizarMatricula(MatriculaDTO matriculaDTO) {
 
-        Atendido novoAtendido = atendidoService.matricularAtendido(matriculaDTO.getAtendidoDTO());
 
-        log.info(" Cadastrou novo atendido ");
-
-
-        Matricula novaMatricula = matriculaMapper.toEntity(matriculaDTO);
-        novaMatricula.setAtendido(novoAtendido);
-        novaMatricula.setDataMatricula(LocalDate.now());
-        log.info(" Definiu data matricula " + novaMatricula.getDataMatricula());
+            Atendido novoAtendido = atendidoService.matricularAtendido(matriculaDTO.getAtendidoDTO());
+            log.info(" Cadastrou novo atendido ");
 
 
+            Matricula novaMatricula = matriculaMapper.toEntity(matriculaDTO);
+            novaMatricula.setAtendido(novoAtendido);
+            novaMatricula.setDataMatricula(LocalDate.now());
+            log.info(" Definiu data matricula " + novaMatricula.getDataMatricula());
 
-        EnderecoDTO novoEnderecoDTO = matriculaDTO.getEnderecoDTO();
-        enderecoService.cadastrarEndereco(novoEnderecoDTO, novoAtendido);
 
-        log.info(" Cadastrou novo Endereco ");
+            EnderecoDTO novoEnderecoDTO = matriculaDTO.getEnderecoDTO();
+            enderecoService.cadastrarEndereco(novoEnderecoDTO, novoAtendido);
+
+            log.info(" Cadastrou novo Endereco ");
 
 
-        for (TelefoneDTO telefoneDTO : matriculaDTO.getTelefoneDTOList()) {
-            telefoneService.cadastrarTelefoneAtendido(telefoneDTO, novoAtendido);
-            log.info("Cadastrou novo telefone" + telefoneDTO.getNumeroTelefone());
-        }
+            for (TelefoneDTO telefoneDTO : matriculaDTO.getTelefoneDTOList()) {
+                telefoneService.cadastrarTelefoneAtendido(telefoneDTO, novoAtendido);
+                log.info("Cadastrou novo telefone" + telefoneDTO.getNumeroTelefone());
+            }
 
-        for (ResponsavelDTO responsavelDTO : matriculaDTO.getResponsavelDTOList()) {
-            responsavelService.cadastrarResponsavel(responsavelDTO, novoAtendido);
-            log.info("Cadastrou novo Responsavel" + responsavelDTO.getCpf());
-        }
-        novaMatricula.setAtendido(novoAtendido);
-        Matricula matriculaSalva = matriculaRepository.save(novaMatricula);
+            for (ResponsavelDTO responsavelDTO : matriculaDTO.getResponsavelDTOList()) {
+                responsavelService.cadastrarResponsavel(responsavelDTO, novoAtendido);
+                log.info("Cadastrou novo Responsavel" + responsavelDTO.getCpf());
+            }
+            novaMatricula.setAtendido(novoAtendido);
+            Matricula matriculaSalva = matriculaRepository.save(novaMatricula);
 
-        return matriculaMapper.toDTO(matriculaSalva);
+
+            return matriculaMapper.toDTO(matriculaSalva);
+
+
 
     }
 

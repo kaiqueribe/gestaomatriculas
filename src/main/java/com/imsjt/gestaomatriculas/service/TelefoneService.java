@@ -4,7 +4,7 @@ import com.imsjt.gestaomatriculas.dto.TelefoneDTO;
 import com.imsjt.gestaomatriculas.entity.Atendido;
 import com.imsjt.gestaomatriculas.entity.Telefone;
 
-import com.imsjt.gestaomatriculas.exceptions.InvalidRequestException;
+import com.imsjt.gestaomatriculas.exceptions.DataConflictException;
 import com.imsjt.gestaomatriculas.exceptions.NotFoundException;
 import com.imsjt.gestaomatriculas.mapper.TelefoneMapper;
 import com.imsjt.gestaomatriculas.repository.TelefoneRepository;
@@ -34,7 +34,7 @@ public class TelefoneService {
 
         telefoneRepository.findByNumeroTelefone(telefone.getNumeroTelefone())
                 .ifPresent(numeroTelefone -> {
-                    throw new InvalidRequestException("Telefone Já Cadastrado! " + telefone.getNumeroTelefone());
+                    throw new DataConflictException("Telefone Já Cadastrado! " + telefone.getNumeroTelefone());
                 });
 
 
@@ -49,7 +49,7 @@ public class TelefoneService {
 
         telefoneRepository.findByNumeroTelefone(telefone.getNumeroTelefone())
                 .ifPresent(numeroTelefone -> {
-                    throw new RuntimeException("Telefone Já Cadastrado! " + telefone.getNumeroTelefone());
+                    throw new DataConflictException("Telefone Já Cadastrado! " + telefone.getNumeroTelefone());
                 });
 
         telefone.setAtendido(atendido);
