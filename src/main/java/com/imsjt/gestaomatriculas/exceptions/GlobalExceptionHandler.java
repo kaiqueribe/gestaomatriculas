@@ -13,6 +13,7 @@ import org.springframework.web.context.request.WebRequest;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+
     @ExceptionHandler(InvalidRequestException.class)
     public ResponseEntity<ErrorResponse> handleInvalidRequestException(InvalidRequestException exception) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(HttpStatus.BAD_REQUEST.value(), exception.getMessage()));
@@ -37,6 +38,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleMissingServletRequestParameter(MissingServletRequestParameterException ex) {
         String mensagemErro = String.format("O parâmetro requerido '%s' está ausente.", ex.getParameterName());
         return new ResponseEntity<>(mensagemErro, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(DataConflictException.class)
+    public ResponseEntity<String> handleDataConflictException(DataConflictException exception) {
+        String msgErro = String.format("'%s'", exception.getMessage());
+        return new ResponseEntity<>(msgErro, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
