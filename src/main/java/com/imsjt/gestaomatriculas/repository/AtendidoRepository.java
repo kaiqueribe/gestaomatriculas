@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface AtendidoRepository extends JpaRepository<Atendido, Long> {
     Optional<Atendido> findByCpf(String cpf);
     Optional<Atendido> findByNumeroMatricula(String matricula);
+    Boolean existsByCpf(String cpf);
+    Boolean existsByNumeroMatricula(String matricula);
 }
