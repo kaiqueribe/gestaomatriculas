@@ -40,16 +40,27 @@ public class AtendidoService {
         return atendidoMapper.toDTO(novoAtendido);
     }
 
+    public void validarIdentidade(AtendidoDTO atendidoDTO) {
+
+        if (atendidoRepository.existsByCpf(atendidoDTO.getCpf())) {
+            throw new InvalidRequestException("CPF já Cadastrado! " + atendidoDTO.getCpf());
+        }
+        if (atendidoRepository.existsByNumeroMatricula(atendidoDTO.getNumeroMatricula())) {
+            throw new InvalidRequestException("Matricula de numero: " + atendidoDTO.getNumeroMatricula() + " já está Cadastrada.");
+        }
+//        atendidoRepository.findByCpf(atendido.getCpf()).ifPresent(atendidoCpf -> {
+//            throw new InvalidRequestException("CPF já Cadastrado! " + atendido.getCpf());
+//        });
+//        atendidoRepository.findByNumeroMatricula(atendido.getNumeroMatricula()).ifPresent(atendidoMatricula -> {
+//            throw new InvalidRequestException("Matricula de numero: " + atendido.getNumeroMatricula() + " já está Cadastrada.");
+//        });
+//        return atendidoMapper.toDTO(atendido);
+    }
+
+
     @Transactional
     public Atendido matricularAtendido(AtendidoDTO atendidoDTO) {
         Atendido atendido = atendidoMapper.toEntity(atendidoDTO);
-        atendidoRepository.findByCpf(atendido.getCpf()).ifPresent(atendidoCpf -> {
-            throw new DataConflictException("CPF já Cadastrado! " + atendido.getCpf());
-        });
-        atendidoRepository.findByNumeroMatricula(atendido.getNumeroMatricula()).ifPresent(atendidoMatricula -> {
-            throw new DataConflictException("Matricula de numero: " + atendido.getNumeroMatricula() + " já está Cadastrada.");
-        });
-
         return atendidoRepository.save(atendido);
 
     }
